@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>seng-boilerplate</title>
+	<title>musictime</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="assets/css/main.css">
@@ -22,7 +22,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="index.html" class="title">seng-boilerplate</a>
+					<a href="index.html" class="title">musictime</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -56,7 +56,7 @@
 					<a href="globals.html">Globals</a>
 				</li>
 			</ul>
-			<h1> seng-boilerplate</h1>
+			<h1> musictime</h1>
 		</div>
 	</div>
 </header>
@@ -64,178 +64,45 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<h1 id="seng-boilerplate">seng-boilerplate</h1>
-				<p>Add a description here...</p>
-				<p><a href="https://travis-ci.org/mediamonks/seng-boilerplate"><img src="https://img.shields.io/travis/mediamonks/seng-boilerplate.svg?maxAge=2592000" alt="Travis"></a>
-					<a href="https://codeclimate.com/github/mediamonks/seng-boilerplate"><img src="https://img.shields.io/codeclimate/github/mediamonks/seng-boilerplate.svg?maxAge=2592000" alt="Code Climate"></a>
-					<a href="https://coveralls.io/github/mediamonks/seng-boilerplate?branch=master"><img src="https://img.shields.io/coveralls/mediamonks/seng-boilerplate.svg?maxAge=2592000" alt="Coveralls"></a>
-					<a href="https://www.npmjs.com/package/seng-boilerplate"><img src="https://img.shields.io/npm/v/seng-boilerplate.svg?maxAge=2592000" alt="npm"></a>
-				<a href="https://www.npmjs.com/package/seng-boilerplate"><img src="https://img.shields.io/npm/dm/seng-boilerplate.svg?maxAge=2592000" alt="npm"></a></p>
-				<h2 id="installation">Installation</h2>
-				<pre><code class="lang-sh">yarn add seng-boilerplate
+				<h1 id="musictime">musictime</h1>
+				<p>Small class to work with timings in a musical context. They are defined as bars/beats/sixteenths, and can be converted to and from actual time in seconds (by supplying a bpm).</p>
+				<h3 id="install">install</h3>
+				<pre><code class="lang-sh">npm install musictime
 </code></pre>
-				<pre><code class="lang-sh">npm i -S seng-boilerplate
-</code></pre>
-				<h2 id="basic-usage">Basic Usage</h2>
-				<pre><code class="lang-ts"><span class="hljs-keyword">import</span> SengBoilerplate <span class="hljs-keyword">from</span> <span class="hljs-string">'seng-boilerplate'</span>;
-<span class="hljs-comment">// import SengBoilerplate from 'seng-boilerplate/lib/classname';</span>
+				<h3 id="creating-an-instance">creating an instance</h3>
+				<p>There are a few ways to create a MusicTime instance:</p>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> MusicTime <span class="hljs-keyword">from</span> <span class="hljs-string">'musictime'</span>;
 
-<span class="hljs-comment">// do something with SengBoilerplate</span>
+<span class="hljs-keyword">const</span> t1 = <span class="hljs-keyword">new</span> MusicTime(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>);            <span class="hljs-comment">// constructor accepts bars, beats, sixteenths (all 0-based)</span>
+<span class="hljs-keyword">const</span> t2 = MusicTime.fromString(<span class="hljs-string">'1.2.3'</span>);   <span class="hljs-comment">// parsing from a string can make data with a lot of timings much cleaner</span>
+<span class="hljs-keyword">const</span> t3 = MusicTime.fromTime(<span class="hljs-number">10</span>, <span class="hljs-number">120</span>);     <span class="hljs-comment">// creates an instance at 10s (at 120bpm)</span>
+
+<span class="hljs-keyword">new</span> MusicTime(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">16</span>).toString();            <span class="hljs-comment">// will be normalized to 1.0.0</span>
 </code></pre>
-				<h2 id="documentation">Documentation</h2>
-				<p>View the <a href="http://mediamonks.github.io/seng-boilerplate/">generated documentation</a>.</p>
-				<h2 id="building">Building</h2>
-				<p>In order to build seng-boilerplate, ensure that you have <a href="http://git-scm.com/downloads">Git</a>
-				and <a href="http://nodejs.org/">Node.js</a> installed.</p>
-				<p>Clone a copy of the repo:</p>
-				<pre><code class="lang-sh">git <span class="hljs-built_in">clone</span> https://github.com/mediamonks/seng-boilerplate.git
+				<h3 id="some-operations">some operations</h3>
+				<p>MusicTime instances can be added, subtracted (both using another MusicTime) and multiplied (using a scalar)</p>
+				<pre><code class="lang-javascript">t1.add(t2);
+t2.subtract(t1);
+t2.multiply(<span class="hljs-number">3</span>);
+
+MusicTime.add(t1, t2); <span class="hljs-comment">// also available as static methods</span>
+MusicTime.subtract(t2, t1);
+MusicTime.multiply(t2, <span class="hljs-number">3</span>);
 </code></pre>
-				<p>Change to the seng-boilerplate directory:</p>
-				<pre><code class="lang-sh"><span class="hljs-built_in">cd</span> seng-boilerplate
+				<h3 id="converting-to-seconds">converting to seconds</h3>
+				<p>Supply a bpm to convert any MusicTime to seconds.</p>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">new</span> MusicTime(<span class="hljs-number">0</span>,<span class="hljs-number">120</span>,<span class="hljs-number">0</span>).toTime(<span class="hljs-number">120</span>); <span class="hljs-comment">// = 60</span>
 </code></pre>
-				<p>Install dev dependencies:</p>
-				<pre><code class="lang-sh">yarn
+				<h3 id="beatsperbar-and-sixteenthsperbeat">beatsPerBar and sixteenthsPerBeat</h3>
+				<p>Both values default to 4, but can be overridden in the constructor (4th and 5th parameter, respectively)</p>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> t1 = <span class="hljs-keyword">new</span> MusicTime(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">3</span>,<span class="hljs-number">8</span>);        <span class="hljs-comment">// 3 beats per bar, 8 sixteenths per beat</span>
 </code></pre>
-				<p>Use one of the following main scripts:</p>
-				<pre><code class="lang-sh">yarn build            <span class="hljs-comment"># build this project</span>
-yarn dev              <span class="hljs-comment"># run compilers in watch mode, both for babel and typescript</span>
-yarn <span class="hljs-built_in">test</span>             <span class="hljs-comment"># run the unit tests incl coverage</span>
-yarn <span class="hljs-built_in">test</span>:dev         <span class="hljs-comment"># run the unit tests in watch mode</span>
-yarn lint             <span class="hljs-comment"># run eslint and tslint on this project</span>
-yarn doc              <span class="hljs-comment"># generate typedoc documentation</span>
-</code></pre>
-				<p>When installing this module, it adds a pre-commit hook, that runs lint and prettier commands
-				before committing, so you can be sure that everything checks out.</p>
-				<h2 id="contribute">Contribute</h2>
-				<p>View <a href="./CONTRIBUTING.md">CONTRIBUTING.md</a></p>
-				<h2 id="changelog">Changelog</h2>
-				<p>View <a href="./CHANGELOG.md">CHANGELOG.md</a></p>
-				<h2 id="authors">Authors</h2>
-				<p>View <a href="./AUTHORS.md">AUTHORS.md</a></p>
-				<h2 id="license">LICENSE</h2>
-				<p><a href="./LICENSE">MIT</a> © MediaMonks</p>
-				<h2 id="about-this-boilerplate">About this boilerplate</h2>
-				<p><strong>Remove this section when cloning this boilerplate to a real project!</strong></p>
-				<h3 id="folders">Folders</h3>
-				<p>This boilerplate contains the following folders:</p>
+				<h3 id="limitations">limitations</h3>
 				<ul>
-					<li><strong>/coverage</strong> - Contains the generated test code coverage, is sent to Code
-					Climate and Coveral.io.</li>
-					<li><strong>/docs</strong> - Contains the generated documentation by typedoc.</li>
-					<li><strong>/lib</strong> - Contains the built code from <code>src/lib</code>, will be published to npm.</li>
-					<li><strong>/node_modules</strong> - Contains the node modules generated by running <code>yarn</code>.</li>
-					<li><strong>/src</strong> - Contains the source code.</li>
-					<li><strong>/test</strong> - Contains the tests.</li>
-					<li><strong>/vendor</strong> - Can contain 3rd party code used in this project, when not
-					available on npm.</li>
+					<li>there is currently nothing more than the sixteenth grid (although the sixteenthsPerBeat can be adjusted)</li>
+					<li>conversions from a time in seconds will floor to that grid and discard any remaining timeinfo</li>
+					<li>timings with unequal beatsPerBar and sixteenthsPerBeat settings cannot be summed or subtracted</li>
 				</ul>
-				<h3 id="files">Files</h3>
-				<p>This boilerplate contains the following files:</p>
-				<ul>
-					<li><strong>.codeclimate.yml</strong> - The Code Climate configuration for this project.</li>
-					<li><strong>.editorconfig</strong> - Defines general formatting rules.</li>
-					<li><strong>.gitignore</strong> - These files should not end up in git.</li>
-					<li><strong>.npmignore</strong> - These files should not end up in npm.</li>
-					<li><strong>.travis.yml</strong> - Configuration for Travis CI.</li>
-					<li><strong>AUTHORS.md</strong> - Contains a list of all the authors that worked on this module.</li>
-					<li><strong>CONTRIBUTING.md</strong> - Contains information on how to contribute on this project.</li>
-					<li><strong>index.d.ts</strong> - The built Typescript definitions, referenced in the package.json.
-					Will be published to npm.</li>
-					<li><strong>index.d.ts</strong> - The built Typescript index, referenced in the package.json.
-					Will be published to npm.</li>
-					<li><strong>LICENSE</strong> - Our license file.</li>
-					<li><strong>package.json</strong> - To list the npm package information, all the dependencies,
-					and contains all the scripts that can be run.</li>
-					<li><strong>README.MD</strong> - This file, remove the about section when cloning this boilerplate.</li>
-					<li><strong>tsconfig.json</strong> - The TypeScript configuration file for this project.</li>
-					<li><strong>/test/tsconfig.json</strong> - The TypeScript configuration file for the tests.</li>
-					<li><strong>tslint.json</strong> - The linting rules for our TypeScript code.</li>
-					<li><strong>typings.json</strong> - The .d.ts dependencies for this project.</li>
-				</ul>
-				<h3 id="typescript">TypeScript</h3>
-				<p>Todo: describe TypeScript configuration and usage.</p>
-				<h3 id="karma">Karma</h3>
-				<p>Todo: describe Karma configuration and usage.</p>
-				<h3 id="tslint">TSLint</h3>
-				<p>Todo: describe TSLint configuration and usage.</p>
-				<h3 id="typedoc">TypeDoc</h3>
-				<p>Todo: describe TypeDoc configuration and usage.</p>
-				<h3 id="travis">Travis</h3>
-				<p>This project uses <a href="https://travis-ci.org">Travis</a> to build, test and
-				publish its code to npm. Travis is free for public Github repositories.</p>
-				<p>It runs on all commits, shows the build status for pull requests, and
-				publishes to npm when a new tag/release is created.</p>
-				<p>Travis only runs the <code>npm test</code> script, so have configured that script
-					to run everything we want Travis to check. Besides the unit tests, we
-				also run our validations and linters.</p>
-				<p>The travis configuration is placed in a <code>.travis.yml</code> file, consisting
-				of multiple sections.</p>
-				<ol>
-					<li>Defines the <code>node_js</code> <a href="https://docs.travis-ci.com/user/languages/javascript-with-nodejs">language</a>,
-					and tells travis on which node versions to run the process.</li>
-					<li>Before running, it needs to install some global dependencies, and
-					when it processes some coverage results.</li>
-					<li>It can do a <a href="https://docs.travis-ci.com/user/deployment/npm">npm deploy</a>,
-						telling it to keep the generated artifacts and only publish when run
-						on node 4 and when a tag was committed. It also contains the email
-					address and api key of the npm user.</li>
-					<li>Code Climate has a <a href="https://docs.travis-ci.com/user/code-climate/">travis plugin</a>
-					that automatically uploads the code coverage results.</li>
-				</ol>
-				<p>Because we want to keep the npm api key secret, we generate a secure
-					token with the <a href="https://github.com/travis-ci/travis.rb">Travis Client</a>,
-				a CLI written in ruby.</p>
-				<p>Before we can do this, we must make sure that the repository is added
-					to Travis, because Travis needs the repository owner/name info to make
-				sure the encrypted values only work for that repository.</p>
-				<ol>
-					<li><p>First you need to <a href="https://github.com/travis-ci/travis.rb#login">login</a>
-						with your travis account:</p>
-						<pre><code class="lang-sh">$ travis login
-</code></pre>
-						<p>To verify that you are logged in correctly you can check:</p>
-						<pre><code class="lang-sh">$ travis whoami
-</code></pre>
-					</li>
-					<li><p>Then make sure you are logged in to your npm account with the
-						<a href="https://docs.npmjs.com/cli/adduser">adduser</a> command:</p>
-						<pre><code class="lang-sh">$ npm adduser
-</code></pre>
-						<p>To verify that you are logged in correctly you can check:</p>
-						<pre><code class="lang-sh">$ npm whoami
-</code></pre>
-					</li>
-					<li><p>Now we need to grab your auth token so we can encrypt it:</p>
-						<pre><code class="lang-sh">$ cat ~/.npmrc
-
-<span class="hljs-comment"># outputs:</span>
-//registry.npmjs.org/:_authToken=&lt;your_auth_token&gt;
-</code></pre>
-					</li>
-					<li><p>Then let&#39;s encrypt that token using the travis <a href="https://github.com/travis-ci/travis.rb#encrypt">encrypt</a>
-						command:</p>
-						<pre><code class="lang-sh">$ travis encrypt &lt;your_auth_token&gt;
-Detected repository as mediamonks/seng-boilerplate, is this correct? |yes|
-Please add the following to your .travis.yml file:
-
-  secure: <span class="hljs-string">"YcN...Zb="</span>
-</code></pre>
-						<p>Now copy that last line, paste it into your <code>.travis.yml</code>, and make
-						sure it looks something like this:</p>
-						<pre><code class="lang-yml"><span class="hljs-attr">deploy:</span>
-<span class="hljs-attr">  provider:</span> <span class="hljs-string">npm</span>
-<span class="hljs-attr">  email:</span> <span class="hljs-string">"john@doe.com"</span>
-<span class="hljs-attr">  api_key:</span>
-<span class="hljs-attr">    secure:</span> <span class="hljs-string">"YcN...Zb="</span>
-</code></pre>
-					</li>
-				</ol>
-				<h3 id="code-climate">Code Climate</h3>
-				<p>Todo: describe Code Climate configuration and usage.</p>
-				<h3 id="coverall">Coverall</h3>
-				<p>Todo: describe Coverall configuration and usage.</p>
-				<h3 id="npm">NPM</h3>
-				<p>Todo: describe NPM configuration and usage.</p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
@@ -249,13 +116,7 @@ Please add the following to your .travis.yml file:
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-class">
-						<a href="classes/dummy.html" class="tsd-kind-icon">Dummy</a>
-					</li>
-					<li class=" tsd-kind-class">
-						<a href="classes/example.html" class="tsd-kind-icon">Example</a>
-					</li>
-					<li class=" tsd-kind-interface">
-						<a href="interfaces/iexample.html" class="tsd-kind-icon">IExample</a>
+						<a href="classes/musictime.html" class="tsd-kind-icon">Music<wbr>Time</a>
 					</li>
 				</ul>
 			</nav>
