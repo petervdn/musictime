@@ -11,21 +11,25 @@ npm install musictime
 ### creating an instance
 There are a few ways to create a MusicTime instance:
 ```javascript
+import MusicTime from 'musictime';
+
 const t1 = new MusicTime(0,0,0);            // constructor accepts bars, beats, sixteenths (all 0-based)
 const t2 = MusicTime.fromString('1.2.3');   // parsing from a string can make data with a lot of timings much cleaner
 const t3 = MusicTime.fromTime(10, 120);     // creates an instance at 10s (at 120bpm)
+
+new MusicTime(0,0,16).toString();            // will be normalized to 1.0.0
 ```
 
 ### some operations
-MusicTime instances can be added, subtracted (both using another MusicTime) and multiplied (using a scalar)
+MusicTime instances can be added, subtracted (both using another MusicTime) and multiplied (using a scalar). All return a new MusicTime.
 ```javascript
-t1.add(t2);
-t2.subtract(t1);
-t2.multiply(3);
+const result1 = t1.add(t2);
+const result2 = t2.subtract(t1);
+const result3 = t2.multiply(3);
 
-MusicTime.add(t1, t2); // also available as static methods
-MusicTime.subtract(t2, t1);
-MusicTime.multiply(t2, 3);
+const result4 = MusicTime.add(t1, t2); // also available as static methods
+const result5 = MusicTime.subtract(t2, t1);
+const result6 = MusicTime.multiply(t2, 3);
 ```
 
 ### converting to seconds

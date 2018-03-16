@@ -101,7 +101,7 @@ export default class MusicTime {
   }
 
   /**
-   * Gets the amount of sixteenths (will always be an integer since 16ths is the mmost exact grid)
+   * Gets the amount of sixteenths (will always be an integer since 16ths is the smallest grid)
    * @returns {number}
    */
   public toSixteenths(): number {
@@ -163,7 +163,7 @@ export default class MusicTime {
 
     if (split.length !== 3) {
       // todo add more validation
-      throw new TypeError('Invalid string');
+      throw new Error('Invalid string');
     }
     return new MusicTime(
       parseInt(split[0], 10),
@@ -248,7 +248,6 @@ export default class MusicTime {
     bpm: number,
     sixteenthsPerBeat: number = 4,
   ): MusicTime {
-    // TODO fix sixteenthsperbeat, should probably be passed to params when creating the timeunit that is returned
     const sixteenthsPerSecond: number = bpm * sixteenthsPerBeat / 60;
     const sixteenthsUnrounded: number = timeInSeconds * sixteenthsPerSecond;
 
