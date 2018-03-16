@@ -34,6 +34,42 @@ export default class MusicTime {
   }
 
   /**
+   * Adds a musicTime to the instance.
+   * @param {MusicTime} time
+   * @returns {MusicTime}
+   */
+  public add(time: MusicTime): MusicTime {
+    return MusicTime.add(this, time);
+  }
+
+  /**
+   * Subtracts a musicTime from the instance.
+   * @param {MusicTime} time
+   * @returns {MusicTime}
+   */
+  public subtract(time: MusicTime): MusicTime {
+    return MusicTime.subtract(this, time);
+  }
+
+  /**
+   * Multiplies a musicTime with a scalar.
+   * @param {number} value
+   * @returns {MusicTime}
+   */
+  public multiply(value: number): MusicTime {
+    return MusicTime.multiply(this, value);
+  }
+
+  /**
+   * Check if the instance is equal to another time.
+   * @param {MusicTime} time
+   * @returns {MusicTime}
+   */
+  public equals(time: MusicTime): boolean {
+    return MusicTime.equals(this, time);
+  }
+
+  /**
    * Makes sure the beats don't exceed the beatsPerbar, and the sixteenths don't exceed sixteenthsPerBeat.
    */
   private normalize(): void {
@@ -107,7 +143,7 @@ export default class MusicTime {
    * @returns {MusicTime}
    */
   public static subtract(time1: MusicTime, time2: MusicTime): MusicTime {
-    // TODO fix two different bpb/bps settings
+    this.throwErrorWhenIncompatible('subtract', time1, time2);
     return new MusicTime(0, 0, time1.toSixteenths() - time2.toSixteenths());
   }
 
@@ -124,9 +160,10 @@ export default class MusicTime {
     sixteenthsPerBeat: number = 4,
   ): MusicTime {
     const split: string[] = value.split('.');
+
     if (split.length !== 3) {
       // todo add more validation
-      throw new Error('Invalid string');
+      throw new TypeError('Invalid string');
     }
     return new MusicTime(
       parseInt(split[0], 10),
@@ -137,16 +174,22 @@ export default class MusicTime {
     );
   }
 
-  private static checkAndStopWhenIncompatible(
+  private static throwErrorWhenIncompatible(
     operation: string,
     time1: MusicTime,
     time2: MusicTime,
   ): void {
     if (
-      time1.beatsPerBar === time2.beatsPerBar &&
-      time1.sixteenthsPerBeat === time2.sixteenthsPerBeat
+      time1.beatsPerBar !== time2.beatsPerBar ||
+      time1.sixteenthsPerBeat !== time2.sixteenthsPerBeat
     ) {
-      throw new Error(`Cannot ${operation} when beatsPerBar or sixteenthsPerBeat are not equal`);
+      throw new Error(
+        `Cannot ${operation} when beatsPerBar (${time1.beatsPerBar},${
+          time2.beatsPerBar
+        }) or sixteenthsPerBeat (${time1.sixteenthsPerBeat},${
+          time2.sixteenthsPerBeat
+        }) are not equal`,
+      );
     }
   }
 
@@ -157,7 +200,7 @@ export default class MusicTime {
    * @returns {MusicTime}
    */
   public static add(time1: MusicTime, time2: MusicTime): MusicTime {
-    MusicTime.checkAndStopWhenIncompatible('add', time1, time2);
+    MusicTime.throwErrorWhenIncompatible('add', time1, time2);
 
     return new MusicTime(
       time1.bars + time2.bars,
@@ -168,16 +211,17 @@ export default class MusicTime {
 
   /**
    * Check if two times are equal.
-   * @param {MusicTime} time
+   * @param {MusicTime} time1
+   * @param {MusicTime} time2
    * @returns {boolean}
    */
-  public equals(time: MusicTime): boolean {
+  public static equals(time1: MusicTime, time2: MusicTime): boolean {
     return (
-      this.beatsPerBar === time.beatsPerBar &&
-      this.sixteenthsPerBeat === time.sixteenthsPerBeat &&
-      this.bars === time.bars &&
-      this.beats === time.beats &&
-      this.sixteenths === time.sixteenths
+      time1.beatsPerBar === time2.beatsPerBar &&
+      time1.sixteenthsPerBeat === time2.sixteenthsPerBeat &&
+      time1.bars === time2.bars &&
+      time1.beats === time2.beats &&
+      time1.sixteenths === time2.sixteenths
     );
   }
 
