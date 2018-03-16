@@ -1,4 +1,4 @@
-#musictime
+# musictime
 
 Small class to work with timings in a musical context. They are defined as bars/beats/sixteenths, and can be converted to and from actual time in seconds.
 
