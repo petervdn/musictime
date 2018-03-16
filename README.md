@@ -4,12 +4,11 @@ Small class to work with timings in a musical context. They are defined as bars/
 
 
 ```
-// constructor accepts bars, beats, sixteenths 
-const t1 = new MusicTime(0,0,0);            // 2nd bar, 3rd beat, 4th sixteends (since they are all 0-based)
-const t2 = MusicTime.fromString('1.2.3');   // same result, can be a lot cleaner with json-files that define a lot of timings as a string
+const t1 = new MusicTime(0,0,0);            // constructor accepts bars, beats, sixteenths (all 0-based)
+const t2 = MusicTime.fromString('1.2.3');   // parsing from a string can make data with a lot of timings much cleaner
 const t3 = MusicTime.fromTime(10, 120);     // creates an instance at 10s (at 120bpm)
 const t4 = t1.add(t2);                      // adds two times
-const s = t4.toTime(120); // 120bpm         // converts to seconds (at 120bpm)
+const s = t4.toTime(120);                   // converts to seconds (at 120bpm)
 
 ```
 
@@ -18,7 +17,7 @@ Both values default to 4, but can be overridden in the constructor (4th and 5th 
 
 ```
 // constructor accepts bars, beats, sixteenths 
-const t1 = new MusicTime(1,0,0,3,4);   
+const t1 = new MusicTime(1,2,3,3,8);        // 3 beats per bar, 8 sixteenths per beat   
 ```
 
 
