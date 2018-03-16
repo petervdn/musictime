@@ -1,6 +1,6 @@
 {
   "name": "musictime",
-  "version": "1.0.2",
+  "version": "1.0.4",
   "description": "Easy to use musical timings",
   "main": "./index.js",
   "types": "./index.d.ts",
