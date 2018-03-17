@@ -50,5 +50,5 @@ const t1 = new MusicTime(1,2,3,3,8);        // 3 beats per bar, 8 sixteenths per
 - there is currently nothing more than the sixteenth grid (although the sixteenthsPerBeat can be adjusted)
 - conversions from a time in seconds will floor to that grid and discard any remaining timeinfo
 - timings with unequal beatsPerBar and sixteenthsPerBeat settings cannot be summed or subtracted
-
+- anything regarding negative numbers and timings is untested and will probably break
 
