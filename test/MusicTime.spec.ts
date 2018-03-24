@@ -82,7 +82,7 @@ describe('MusicTime', () => {
     expect(key).to.equal('120.555-1-2-3-4-5');
   });
 
-  it('should store toTime() result in cache', () => {
+  it('should store correct toTime() result in cache', () => {
     const time = new MusicTime(8,2,2);
     const bpm = 120;
     const secs = time.toTime(bpm);
@@ -90,7 +90,7 @@ describe('MusicTime', () => {
     expect(secs).to.equal(MusicTime.TO_TIME_CACHE[key]);
   });
 
-  it('should add toTime() calls in cache', () => {
+  it('should add multiple toTime() calls in cache', () => {
     MusicTime.TO_TIME_CACHE = {};
     const time = new MusicTime(1,2,3,4,5);
     const s1 = time.toTime(120);
