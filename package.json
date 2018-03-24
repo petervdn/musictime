@@ -1,7 +1,7 @@
 {
   "name": "musictime",
   "version": "1.0.7",
-  "description": "Easy to use musical timings",
+  "description": "Convert musical timings (bars, beats, 16ths) from and to seconds.",
   "main": "./index.js",
   "types": "./index.d.ts",
   "scripts": {
@@ -44,13 +44,17 @@
     "validate"
   ],
   "author": "Peter van der Noord",
-  "homepage": "https://github.com/petervdn",
+  "homepage": "https://github.com/petervdn/musictime",
   "license": "MIT",
   "keywords": [
     "music",
     "time",
     "timing",
-    "bpm"
+    "bpm",
+    "beats per minute",
+    "bars",
+    "beats",
+    "sixteenths"
   ],
   "bugs": {
     "url": "https://github.com/petervdn/musictime/issues"
