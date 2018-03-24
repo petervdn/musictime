@@ -1,4 +1,10 @@
 export default class MusicTime {
+  /**
+   * hashmap for the results of toTime(bpm) calls
+   * @type {{}}
+   */
+  public static TO_TIME_CACHE: { [key: string]: number } = {};
+
   public beatsPerBar: number;
   public sixteenthsPerBeat: number;
   public beats: number;
@@ -21,16 +27,30 @@ export default class MusicTime {
     this.normalize();
   }
 
+  private getCacheKey(bpm: number): string {
+    // todo test this
+    return `${bpm}-${this.bars}-${this.beats}-${this.sixteenths}-${this.beatsPerBar}-${
+      this.sixteenthsPerBeat
+    }`;
+  }
+
   /**
    * Returns the time in seconds.
    * @param bpm
    * @returns {number}
    */
   public toTime(bpm: number): number {
-    const beats =
-      this.bars * this.beatsPerBar + this.beats + this.sixteenths / this.sixteenthsPerBeat;
+    const cacheKey = this.getCacheKey(bpm);
+    if (MusicTime.TO_TIME_CACHE[cacheKey] === void 0) {
+      // no cached value exists
+      const beats =
+        this.bars * this.beatsPerBar + this.beats + this.sixteenths / this.sixteenthsPerBeat;
 
-    return beats * 60 / bpm;
+      // add to cache hashmap
+      MusicTime.TO_TIME_CACHE[cacheKey] = beats * 60 / bpm;
+    }
+
+    return MusicTime.TO_TIME_CACHE[cacheKey];
   }
 
   /**
