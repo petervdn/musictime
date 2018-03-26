@@ -69,39 +69,48 @@
 				<h3 id="install">install</h3>
 				<pre><code class="lang-sh">npm install musictime
 </code></pre>
-				<h3 id="creating-an-instance">creating an instance</h3>
-				<p>There are a few ways to create a MusicTime instance:</p>
+				<h2 id="creating-an-instance">creating an instance</h2>
+				<p>There are a few ways to create a <code>MusicTime</code> instance:</p>
 				<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> MusicTime <span class="hljs-keyword">from</span> <span class="hljs-string">'musictime'</span>;
 
 <span class="hljs-keyword">const</span> t1 = <span class="hljs-keyword">new</span> MusicTime(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">0</span>);            <span class="hljs-comment">// constructor accepts bars, beats, sixteenths (all 0-based)</span>
 <span class="hljs-keyword">const</span> t2 = MusicTime.fromString(<span class="hljs-string">'1.2.3'</span>);   <span class="hljs-comment">// parsing from a string can make data with a lot of timings much cleaner</span>
 <span class="hljs-keyword">const</span> t3 = MusicTime.fromTime(<span class="hljs-number">10</span>, <span class="hljs-number">120</span>);     <span class="hljs-comment">// creates an instance at 10s (at 120bpm)</span>
-
-<span class="hljs-keyword">new</span> MusicTime(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">16</span>).toString();            <span class="hljs-comment">// will be normalized to 1.0.0</span>
 </code></pre>
-				<h3 id="some-operations">some operations</h3>
-				<p>MusicTime instances can be added, subtracted (both using another MusicTime) and multiplied (using a scalar)</p>
-				<pre><code class="lang-javascript">t1.add(t2);
-t2.subtract(t1);
-t2.multiply(<span class="hljs-number">3</span>);
-
-MusicTime.add(t1, t2); <span class="hljs-comment">// also available as static methods</span>
-MusicTime.subtract(t2, t1);
-MusicTime.multiply(t2, <span class="hljs-number">3</span>);
+				<p>Note that all times will be normalized:</p>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">new</span> MusicTime(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">16</span>); <span class="hljs-comment">// will have 1 bar, 0 beats, 0 sixteenths</span>
 </code></pre>
-				<h3 id="converting-to-seconds">converting to seconds</h3>
-				<p>Supply a bpm to convert any MusicTime to seconds.</p>
+				<h2 id="some-operations">some operations</h2>
+				<pre><code class="lang-javascript"><span class="hljs-comment">// calculations</span>
+<span class="hljs-keyword">const</span> result1 = t1.add(t2);
+<span class="hljs-keyword">const</span> result2 = t2.subtract(t1);
+<span class="hljs-keyword">const</span> result3 = t2.multiply(<span class="hljs-number">3</span>);
+
+<span class="hljs-comment">// these are also available as static methods</span>
+<span class="hljs-keyword">const</span> result4 = MusicTime.add(t1, t2);
+<span class="hljs-keyword">const</span> result5 = MusicTime.subtract(t2, t1);
+<span class="hljs-keyword">const</span> result6 = MusicTime.multiply(t2, <span class="hljs-number">3</span>);
+
+<span class="hljs-keyword">const</span> clone = result1.clone();    <span class="hljs-comment">// clones the instance</span>
+<span class="hljs-keyword">new</span> MusicTime(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>).toString();  <span class="hljs-comment">// "1.2.3"</span>
+</code></pre>
+				<h2 id="converting-to-seconds">converting to seconds</h2>
+				<p>Supply a bpm to convert an instance to seconds.</p>
 				<pre><code class="lang-javascript"><span class="hljs-keyword">new</span> MusicTime(<span class="hljs-number">0</span>,<span class="hljs-number">120</span>,<span class="hljs-number">0</span>).toTime(<span class="hljs-number">120</span>); <span class="hljs-comment">// = 60</span>
 </code></pre>
-				<h3 id="beatsperbar-and-sixteenthsperbeat">beatsPerBar and sixteenthsPerBeat</h3>
+				<p>Results from these <code>toTime</code> calls will be stored in a cache, so that multiple requests (with the same bpm) will skip unnessesary calculations. This cache is global and is used by all <code>MusicTime</code> instances. If for some reason you want to clear this cache:</p>
+				<pre><code class="lang-javascript">MusicTime.clearCache();
+</code></pre>
+				<h2 id="beatsperbar-and-sixteenthsperbeat">beatsPerBar and sixteenthsPerBeat</h2>
 				<p>Both values default to 4, but can be overridden in the constructor (4th and 5th parameter, respectively)</p>
 				<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> t1 = <span class="hljs-keyword">new</span> MusicTime(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">3</span>,<span class="hljs-number">8</span>);        <span class="hljs-comment">// 3 beats per bar, 8 sixteenths per beat</span>
 </code></pre>
-				<h3 id="limitations">limitations</h3>
+				<h2 id="limitations">limitations</h2>
 				<ul>
-					<li>there is currently nothing more than the sixteenth grid (although the sixteenthsPerBeat can be adjusted)</li>
+					<li>there is currently nothing more than the sixteenth grid (although the <code>sixteenthsPerBeat</code> can be adjusted)</li>
 					<li>conversions from a time in seconds will floor to that grid and discard any remaining timeinfo</li>
-					<li>timings with unequal beatsPerBar and sixteenthsPerBeat settings cannot be summed or subtracted</li>
+					<li>timings with unequal <code>beatsPerBar</code> and <code>sixteenthsPerBeat</code> settings cannot be summed or subtracted</li>
+					<li>anything regarding negative numbers and timings is untested and will probably lead to incorrect results.</li>
 				</ul>
 			</div>
 		</div>
