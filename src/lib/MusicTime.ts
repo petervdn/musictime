@@ -27,6 +27,10 @@ export default class MusicTime {
     this.normalize();
   }
 
+  public static clearCache(): void {
+    MusicTime.TO_TIME_CACHE = {};
+  }
+
   private getCacheKey(bpm: number): string {
     // todo test this
     return `${bpm}-${this.bars}-${this.beats}-${this.sixteenths}-${this.beatsPerBar}-${

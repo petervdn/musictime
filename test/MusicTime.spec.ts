@@ -100,6 +100,15 @@ describe('MusicTime', () => {
     expect(Object.keys(MusicTime.TO_TIME_CACHE).length).to.equal(3);
   });
 
+  it('should clear the cache', () => {
+    MusicTime.TO_TIME_CACHE = {};
+    const time = new MusicTime(1,2,3,4,5);
+    time.toTime(120);
+    expect(Object.keys(MusicTime.TO_TIME_CACHE).length).to.equal(1);
+    MusicTime.clearCache();
+    expect(Object.keys(MusicTime.TO_TIME_CACHE).length).to.equal(0);
+  });
+
   it('should convert from valid string', () => {
     expect(MusicTime.fromString('1.2.3').toString()).to.equal('1.2.3');
   });

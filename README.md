@@ -44,7 +44,11 @@ Supply a bpm to convert an instance to seconds.
 ```javascript
 new MusicTime(0,120,0).toTime(120); // = 60
 ```
-Results from these `toTime` calls will be stored in a cache, so that multiple requests (with the same bpm) will skip unnessesary calculations. (this cache is global and is used by all `MusicTime` instances)
+
+Results from these `toTime` calls will be stored in a cache, so that multiple requests (with the same bpm) will skip unnessesary calculations. This cache is global and is used by all `MusicTime` instances. If for some reason you want to clear this cache:
+```javascript
+MusicTime.clearCache();
+```
 
 ## beatsPerBar and sixteenthsPerBeat
 Both values default to 4, but can be overridden in the constructor (4th and 5th parameter, respectively)
