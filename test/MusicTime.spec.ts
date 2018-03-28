@@ -36,6 +36,17 @@ describe('MusicTime', () => {
     expect(new MusicTime(0,8,0).multiply(4).toString()).to.equal('8.0.0');
   });
 
+  it('should check validness of strings', () => {
+    const valid = ['0.0.0', '100.100.100'];
+    const invalid = ['-1.0.0', '0.0.-1', 'a.b.c', '1', '1.2', '..'];
+
+    const validChecks:boolean[] = valid.map(entry => MusicTime.stringIsValid(entry));
+    const invalidChecks = invalid.map(entry => MusicTime.stringIsValid(entry));
+
+    expect(validChecks.every(entry => entry === true)).to.equal(true);
+    expect(invalidChecks.every(entry => entry === false)).to.equal(true);
+  });
+
   it('should subtract two compatible times', () => {
     expect(new MusicTime(0,8,0).subtract(new MusicTime(1,0,0)).toString()).to.equal('1.0.0');
   });
@@ -113,7 +124,7 @@ describe('MusicTime', () => {
     expect(MusicTime.fromString('1.2.3').toString()).to.equal('1.2.3');
   });
 
-  it('should fail on invalid string', () => {
+  it('should fail when creating an instance from an invalid string', () => {
     expect(() => {
       MusicTime.fromString('invalid')
     }).to.throw();

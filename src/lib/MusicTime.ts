@@ -32,7 +32,6 @@ export default class MusicTime {
   }
 
   private getCacheKey(bpm: number): string {
-    // todo test this
     return `${bpm}-${this.bars}-${this.beats}-${this.sixteenths}-${this.beatsPerBar}-${
       this.sixteenthsPerBeat
     }`;
@@ -183,12 +182,10 @@ export default class MusicTime {
     beatsPerBar: number = 4,
     sixteenthsPerBeat: number = 4,
   ): MusicTime {
-    const split: string[] = value.split('.');
-
-    if (split.length !== 3) {
-      // todo add more validation
+    if (!MusicTime.stringIsValid(value)) {
       throw new Error('Invalid string');
     }
+    const split: string[] = value.split('.');
     return new MusicTime(
       parseInt(split[0], 10),
       parseInt(split[1], 10),
@@ -247,6 +244,36 @@ export default class MusicTime {
       time1.beats === time2.beats &&
       time1.sixteenths === time2.sixteenths
     );
+  }
+
+  /**
+   * Checks if a string can be used in MusicTime.fromString();
+   * @param {string} value
+   * @returns {boolean}
+   */
+  public static stringIsValid(value: string): boolean {
+    const split = value.split('.');
+    if (split.length !== 3) {
+      return false;
+    }
+
+    // todo this can be optimized
+    for (let i = 0; i < split.length; i++) {
+      const entry = split[i];
+      // check if every character is a number (otherwise '10test1.0.0' is valid)
+      for (let char = 0; char < entry.length; char++) {
+        if (!Number.isInteger(parseInt(entry.charAt(char), 10))) {
+          return false;
+        }
+      }
+
+      const parsedInt = parseInt(split[i], 10);
+      if (!Number.isInteger(parsedInt) || parsedInt < 0) {
+        return false;
+      }
+    }
+
+    return true;
   }
 
   /**
