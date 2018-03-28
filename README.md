@@ -45,6 +45,19 @@ const clone = result1.clone();    // clones the instance
 new MusicTime(1,2,3).toString();  // "1.2.3"
 ```
 
+## comparison
+Instances have a `valueOf` method (returning the total number of sixteenths), which makes direct comparison through relational operators (> < >= <=) possible:
+```javascript
+const time1 = new MusicTime(1, 0, 0);
+const time2 = new MusicTime(2, 0, 0);
+
+time1 > time2 // true
+time1 < time2 // false
+
+time1.toSixteenths(); // 16
+time2.toSixteenths(); // 32
+```
+
 ## converting to seconds
 Supply a bpm to convert an instance to seconds.
 ```javascript
