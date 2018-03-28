@@ -155,8 +155,20 @@ export default class MusicTime {
     return this.bars * this.beatsPerBar + this.beats + this.sixteenths / this.sixteenthsPerBeat;
   }
 
+  /**
+   * Returns a readable string.
+   * @returns {string}
+   */
   public toString(): string {
     return this.bars + '.' + this.beats + '.' + this.sixteenths;
+  }
+
+  /**
+   * Calls and returns the result from toSixteenths.
+   * @returns {number}
+   */
+  public valueOf(): number {
+    return this.toSixteenths();
   }
 
   /**
