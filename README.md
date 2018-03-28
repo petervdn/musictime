@@ -13,9 +13,15 @@ There are a few ways to create a `MusicTime` instance:
 ```javascript
 import MusicTime from 'musictime';
 
-const t1 = new MusicTime(0,0,0);            // constructor accepts bars, beats, sixteenths (all 0-based)
+const t1 = new MusicTime(0, 0, 0);            // constructor accepts bars, beats, sixteenths (all 0-based)
 const t2 = MusicTime.fromString('1.2.3');   // parsing from a string can make data with a lot of timings much cleaner
 const t3 = MusicTime.fromTime(10, 120);     // creates an instance at 10s (at 120bpm)
+```
+
+The bars, beats and sixteenths parameters in the constructor all default to `0`.
+```javascript
+new MusicTime()    // same as new MusicTime(0, 0, 0);
+new MusicTime(1)   // new MusicTime(1, 0, 0)
 ```
 
 Note that all times will be normalized:

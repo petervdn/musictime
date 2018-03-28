@@ -12,9 +12,9 @@ export default class MusicTime {
   public sixteenths: number;
 
   constructor(
-    bars: number,
-    beats: number,
-    sixteenths: number,
+    bars: number = 0,
+    beats: number = 0,
+    sixteenths: number = 0,
     beatsPerBar: number = 4,
     sixteenthsPerBeat: number = 4,
   ) {
