@@ -124,6 +124,15 @@ describe('MusicTime', () => {
     expect(MusicTime.fromString('1.2.3').toString()).to.equal('1.2.3');
   });
 
+  it('should use default values in constructor', () => {
+    const items = [
+      new MusicTime().toString(),
+      new MusicTime(1).toString(),
+      new MusicTime(1, 2).toString(),
+    ];
+    expect(items).to.deep.equal(['0.0.0', '1.0.0', '1.2.0']);
+  });
+
   it('should fail when creating an instance from an invalid string', () => {
     expect(() => {
       MusicTime.fromString('invalid')
