@@ -1,12 +1,12 @@
 import {expect} from 'chai';
 import MusicTime from "../src/lib/MusicTime";
 
-let musicTime:MusicTime;
+// let musicTime:MusicTime;
 
 describe('MusicTime', () => {
-  beforeEach(() => {
-    musicTime = new MusicTime(0,0,0);
-  });
+  // beforeEach(() => {
+  //   musicTime = new MusicTime(0,0,0);
+  // });
 
   it('should not normalize bars', () => {
     expect(new MusicTime(20,0,0).toString()).to.equal('20.0.0');
