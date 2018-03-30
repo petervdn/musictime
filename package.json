@@ -1,6 +1,6 @@
 {
   "name": "musictime",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "Convert musical timings (bars, beats, 16ths) from and to seconds.",
   "main": "./index.js",
   "types": "./index.d.ts",
