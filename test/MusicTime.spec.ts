@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import MusicTime from "../src/lib/MusicTime";
+import MusicTime from "../src/";
 
 // let musicTime:MusicTime;
 

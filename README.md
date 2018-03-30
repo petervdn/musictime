@@ -24,9 +24,30 @@ new MusicTime()    // same as new MusicTime(0, 0, 0);
 new MusicTime(1)   // new MusicTime(1, 0, 0)
 ```
 
-Note that all times will be normalized:
+Each instance has a `bars`, `beats` and `sixteenths` property.
+```typescript
+const time = new MusicTime(1,2,3)
+time1.bars       // 1
+time1.beats      // 2
+time1.sixteenths // 3
+
+// all times will be normalized after creation:
+const time = new MusicTime(0,0,16); 
+time2.bars       // 1
+time2.beats      // 0
+time2.sixteenths // 0
+```
+__At the moment you should not set these 3 properties__ 
+
+## converting to seconds
+Supply a bpm to convert an instance to seconds.
 ```javascript
-new MusicTime(0,0,16); // will have 1 bar, 0 beats, 0 sixteenths
+new MusicTime(0,120,0).toTime(120); // = 60
+```
+
+Results from these `toTime` calls will be stored in a cache, so that multiple requests (with the same bpm) will skip unnessesary calculations. This cache is global and is used by all `MusicTime` instances (`MusicTime.TO_TIME_CACHE`). If for some reason you want to clear this cache:
+```javascript
+MusicTime.clearCache();
 ```
 
 ## some operations
@@ -36,7 +57,7 @@ const result1 = t1.add(t2);
 const result2 = t2.subtract(t1);
 const result3 = t2.multiply(3);
 
-// these are also available as static methods
+// also available as static methods
 const result4 = MusicTime.add(t1, t2);
 const result5 = MusicTime.subtract(t2, t1);
 const result6 = MusicTime.multiply(t2, 3);
@@ -46,34 +67,20 @@ new MusicTime(1,2,3).toString();  // "1.2.3"
 ```
 
 ## comparison
-Instances have a `valueOf` method (returning the total number of sixteenths), which makes direct comparison through relational operators (> < >= <=) possible:
+Instances have a `valueOf` method (returning the total number of sixteenths), which makes direct comparison through relational operators (`> < >= <=`) possible:
 ```javascript
 const time1 = new MusicTime(1, 0, 0);
 const time2 = new MusicTime(2, 0, 0);
 
 time1 > time2 // true
 time1 < time2 // false
-
-time1.toSixteenths(); // 16
-time2.toSixteenths(); // 32
-```
-
-## converting to seconds
-Supply a bpm to convert an instance to seconds.
-```javascript
-new MusicTime(0,120,0).toTime(120); // = 60
-```
-
-Results from these `toTime` calls will be stored in a cache, so that multiple requests (with the same bpm) will skip unnessesary calculations. This cache is global and is used by all `MusicTime` instances. If for some reason you want to clear this cache:
-```javascript
-MusicTime.clearCache();
 ```
 
 ## beatsPerBar and sixteenthsPerBeat
 Both values default to 4, but can be overridden in the constructor (4th and 5th parameter, respectively)
 
 ```javascript
-const t1 = new MusicTime(1,2,3,3,8);        // 3 beats per bar, 8 sixteenths per beat
+new MusicTime(1,2,3,3,8); // 3 beats per bar, 8 sixteenths per beat
 ```
 
 
