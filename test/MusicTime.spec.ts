@@ -148,13 +148,14 @@ describe('MusicTime', () => {
   it('should compare instances', () => {
     const time1 = new MusicTime(1,0,0);
     const time2 = new MusicTime(2,0,0);
-    const time3 = new MusicTime(1,0,0);
+    const time9 = new MusicTime(9,0,0);
+    const time11 = new MusicTime(11,0,0);
 
     expect(time1 < time2).to.equal(true);
+    expect(time1 > time2).to.equal(false);
+    expect(time2 > time1).to.equal(true);
     expect(time2 < time1).to.equal(false);
-    expect(time3 > time1).to.equal(false);
-    expect(time3 >= time1).to.equal(true);
-    expect(time3 <= time1).to.equal(true);
+    expect(time9 > time11).to.equal(false);
+    expect(time11 > time9).to.equal(true);
   });
-
 });
