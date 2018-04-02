@@ -58,6 +58,10 @@ describe('MusicTime', () => {
   });
 
   it('should check equality', () => {
+    const t1 =MusicTime.fromString('1.0.1');
+    const t2 =MusicTime.fromString('1.0.01');
+
+    expect(t1.equals(t2)).to.equal(true);
     expect(new MusicTime(0,8,0).equals(new MusicTime(2,0,0))).to.equal(true);
   });
 
@@ -143,7 +147,6 @@ describe('MusicTime', () => {
     expect(MusicTime.stringIsValid('test')).to.equal(false);
     expect(MusicTime.stringIsValid('10.10.10')).to.equal(true);
   });
-
 
   it('should compare instances', () => {
     const time1 = new MusicTime(1,0,0);
