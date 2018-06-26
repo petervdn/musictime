@@ -6,9 +6,9 @@ import MusicTime from '../../src/lib/MusicTime';
 });
 
 
-const t1 = new MusicTime(0,8,0);
-const t2 = new MusicTime(0,0,17);
+const t1 = new MusicTime(0,8,0.5);
+
 
 // expect(new MusicTime(0,8,0).add(new MusicTime(0,0,17)).toString()).to.equal('3.0.1');
-console.log(t1, t2);
-console.log(t2.add(t2));
+console.log(t1.getBarsBeatsSixteenths());
+

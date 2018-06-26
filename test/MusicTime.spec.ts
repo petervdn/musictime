@@ -53,6 +53,18 @@ describe('MusicTime', () => {
     expect(new MusicTime(0,8,0).equals(new MusicTime(2,0,0))).to.equal(true);
   });
 
+  it('should init timeConfig when nothing is set', () => {
+    const conf = new MusicTime(0, 0, 0).getTimeConfig();
+    expect(conf.sixteenthsPerBeat).to.equal(4);
+    expect(conf.beatsPerBar).to.equal(4);
+  });
+
+  it('should set timeConfig', () => {
+    const conf = new MusicTime(0, 0, 0, {sixteenthsPerBeat: 3, beatsPerBar: 4}).getTimeConfig();
+    expect(conf.sixteenthsPerBeat).to.equal(3);
+    expect(conf.beatsPerBar).to.equal(4);
+  });
+
   it('should convert to full bars', () => {
     expect(new MusicTime(0,0,16).getTotalBars()).to.equal(1);
   });

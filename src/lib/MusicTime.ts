@@ -7,12 +7,15 @@ interface IBarsBeatsSixteenths {
   bars: number;
   beats: number;
   sixteenths: number;
-  remainingBars: number;
+  remainingSixteenths: number;
 }
 
+const getDefaultTimeConfig = () => ({
+  sixteenthsPerBeat: 4,
+  beatsPerBar: 4,
+});
+
 export default class MusicTime {
-  // public beatsPerBar: number;
-  // public sixteenthsPerBeat: number;
   private _beats: number;
   private _timeConfig: ITimeConfig;
 
@@ -22,36 +25,38 @@ export default class MusicTime {
     sixteenths: number = 0,
     timeConfig?: ITimeConfig,
   ) {
-    this._timeConfig = {
-      sixteenthsPerBeat: (timeConfig && timeConfig.sixteenthsPerBeat) || 4,
-      beatsPerBar: (timeConfig && timeConfig.beatsPerBar) || 4,
-    };
+    this._timeConfig = timeConfig || getDefaultTimeConfig();
 
     this._beats =
       bars * this._timeConfig.beatsPerBar + beats + sixteenths / this._timeConfig.sixteenthsPerBeat;
   }
 
   /**
-   *
+   * Returns an object with bars, beats & sixteenths, based on the current timeConfig.
    * @returns {IBarsBeatsSixteenths}
    */
   public getBarsBeatsSixteenths(): IBarsBeatsSixteenths {
-    const totalSixteenths = Math.floor(this._beats * this._timeConfig.sixteenthsPerBeat);
+    const totalSixteenths = this._beats * this._timeConfig.sixteenthsPerBeat;
+    const flooredSixteenths = Math.floor(totalSixteenths);
     const sixteenthsPerBar = this._timeConfig.sixteenthsPerBeat * this._timeConfig.beatsPerBar;
-    const bars = Math.floor(totalSixteenths / sixteenthsPerBar);
+    const bars = Math.floor(flooredSixteenths / sixteenthsPerBar);
     const beats = Math.floor(
-      (totalSixteenths - bars * sixteenthsPerBar) / this._timeConfig.sixteenthsPerBeat,
+      (flooredSixteenths - bars * sixteenthsPerBar) / this._timeConfig.sixteenthsPerBeat,
     );
 
     return {
       bars,
       beats,
       sixteenths:
-        totalSixteenths - bars * sixteenthsPerBar - beats * this._timeConfig.sixteenthsPerBeat,
-      remainingBars: 0,
+        flooredSixteenths - bars * sixteenthsPerBar - beats * this._timeConfig.sixteenthsPerBeat,
+      remainingSixteenths: totalSixteenths - flooredSixteenths,
     };
   }
 
+  /**
+   * Returns the current timeConfig (beatsPerBar and sixteenthsPerBeat).
+   * @returns {ITimeConfig}
+   */
   public getTimeConfig(): ITimeConfig {
     return {
       sixteenthsPerBeat: this._timeConfig.sixteenthsPerBeat,
@@ -60,7 +65,15 @@ export default class MusicTime {
   }
 
   /**
-   * Returns the time in seconds.
+   * Set the timeConfig.
+   * @param {ITimeConfig} value
+   */
+  public setTimeConfig(value: ITimeConfig): void {
+    this._timeConfig = value;
+  }
+
+  /**
+   * Convert to time in seconds, based on a given amount of beats per minute.
    * @param bpm
    * @returns {number}
    */
@@ -179,6 +192,7 @@ export default class MusicTime {
    * @returns {MusicTime}
    */
   public static fromString(
+    // todo allow fractions
     value: string,
     beatsPerBar: number = 4,
     sixteenthsPerBeat: number = 4,
@@ -234,21 +248,13 @@ export default class MusicTime {
   }
 
   /**
-   * Creates a MusicTime instance from an amount of seconds. Will be floored to the 16th grid,
-   * remaining time will be thrown away.
+   * Creates a MusicTime instance from an amount of seconds.
    * @param {number} timeInSeconds
    * @param {number} bpm
-   * @param {number} sixteenthsPerBeat
+   * @param {ITimeConfig} timeConfig
    * @returns {MusicTime}
    */
-  public static fromTime(
-    timeInSeconds: number,
-    bpm: number,
-    sixteenthsPerBeat: number = 4,
-  ): MusicTime {
-    const sixteenthsPerSecond: number = bpm * sixteenthsPerBeat / 60;
-    const sixteenthsUnrounded: number = timeInSeconds * sixteenthsPerSecond;
-
-    return new MusicTime(0, 0, Math.floor(sixteenthsUnrounded));
+  public static fromTime(timeInSeconds: number, bpm: number, timeConfig?: ITimeConfig): MusicTime {
+    return new MusicTime(0, timeInSeconds * bpm / 60, 0, timeConfig);
   }
 }
