@@ -98,15 +98,15 @@ export default class MusicTime {
     return new MusicTime(0, this._beats);
   }
 
-  public getBars(): number {
+  public getTotalBars(): number {
     return this._beats / this.beatsPerBar;
   }
 
-  public getBeats(): number {
+  public getTotalBeats(): number {
     return this._beats;
   }
 
-  public getSixteenths(): number {
+  public getTotalSixteenths(): number {
     return this._beats * this.sixteenthsPerBeat;
   }
 

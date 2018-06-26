@@ -52,27 +52,33 @@ describe('MusicTime', () => {
   });
 
   it('should check equality', () => {
-    const t1 =MusicTime.fromString('1.0.1');
-    const t2 =MusicTime.fromString('1.0.01');
+    const t1 = MusicTime.fromString('1.0.1');
+    const t2 = MusicTime.fromString('1.0.01');
 
     expect(t1.equals(t2)).to.equal(true);
     expect(new MusicTime(0,8,0).equals(new MusicTime(2,0,0))).to.equal(true);
   });
 
-
-
-  it('should convert to full sixteenths', () => {
-    expect(new MusicTime(1,0,0).getSixteenths()).to.equal(16);
-  });
-
-
   it('should convert to full bars', () => {
-    expect(new MusicTime(0,0,16).getBars()).to.equal(1);
+    expect(new MusicTime(0,0,16).getTotalBars()).to.equal(1);
   });
 
   it('should convert to partial bars', () => {
-    expect(new MusicTime(0,0,24).getBars()).to.equal(1.5);
+    expect(new MusicTime(0,0,24).getTotalBars()).to.equal(1.5);
   });
+
+  it('should get beats', () => {
+    expect(new MusicTime(0,0,10).getTotalBeats()).to.equal(2.5);
+  });
+
+  it('should convert to full sixteenths', () => {
+    expect(new MusicTime(1,0,0).getTotalSixteenths()).to.equal(16);
+  });
+
+  // it('should convert to partial sixteenths', () => {
+  //   expect(new MusicTime(1,0,0).getSixteenths()).to.equal(16);
+  // });
+
 
   it('should clone', () => {
     const time = new MusicTime(11,13,58);
