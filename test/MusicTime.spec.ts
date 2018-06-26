@@ -1,5 +1,5 @@
 import {expect} from 'chai';
-import MusicTime from "../src/";
+import MusicTime, { stringIsValid } from "../src/lib/MusicTime";
 
 describe('MusicTime', () => {
   it('should not normalize bars', () => {
@@ -32,10 +32,10 @@ describe('MusicTime', () => {
 
   it('should check validness of strings', () => {
     const valid = ['0.0.0', '100.100.100'];
-    const invalid = ['-1.0.0', '0.0.-1', 'a.b.c', '1', '1.2', '..'];
+    const invalid = ['-1.0.0', '0.0.-1', 'a.b.c', '1', '1.2', '..', 'test'];
 
-    const validChecks:boolean[] = valid.map(entry => MusicTime.stringIsValid(entry));
-    const invalidChecks = invalid.map(entry => MusicTime.stringIsValid(entry));
+    const validChecks:boolean[] = valid.map(entry => stringIsValid(entry));
+    const invalidChecks = invalid.map(entry => stringIsValid(entry));
 
     expect(validChecks.every(entry => entry === true)).to.equal(true);
     expect(invalidChecks.every(entry => entry === false)).to.equal(true);
@@ -81,11 +81,6 @@ describe('MusicTime', () => {
     expect(new MusicTime(1,0,0).getTotalSixteenths()).to.equal(16);
   });
 
-  // it('should convert to partial sixteenths', () => {
-  //   expect(new MusicTime(1,0,0).getSixteenths()).to.equal(16);
-  // });
-
-
   it('should clone', () => {
     const time = new MusicTime(11,13,58);
     const clone = time.clone();
@@ -109,11 +104,6 @@ describe('MusicTime', () => {
     expect(() => {
       MusicTime.fromString('invalid')
     }).to.throw();
-  });
-
-  it('should check validity of a string', () => {
-    expect(MusicTime.stringIsValid('test')).to.equal(false);
-    expect(MusicTime.stringIsValid('10.10.10')).to.equal(true);
   });
 
   it('should compare instances', () => {
