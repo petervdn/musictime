@@ -110,12 +110,14 @@
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="musictime.html#tosixteenths" class="tsd-kind-icon">to<wbr>Sixteenths</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="musictime.html#tostring" class="tsd-kind-icon">to<wbr>String</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="musictime.html#totime" class="tsd-kind-icon">to<wbr>Time</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="musictime.html#valueof" class="tsd-kind-icon">value<wbr>Of</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="musictime.html#add-1" class="tsd-kind-icon">add</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="musictime.html#clearcache" class="tsd-kind-icon">clear<wbr>Cache</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="musictime.html#equals-1" class="tsd-kind-icon">equals</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="musictime.html#fromstring" class="tsd-kind-icon">from<wbr>String</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="musictime.html#fromtime" class="tsd-kind-icon">from<wbr>Time</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="musictime.html#multiply-1" class="tsd-kind-icon">multiply</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="musictime.html#stringisvalid" class="tsd-kind-icon">string<wbr>IsValid</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-static"><a href="musictime.html#subtract-1" class="tsd-kind-icon">subtract</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class tsd-is-private tsd-is-static"><a href="musictime.html#throwerrorwhenincompatible" class="tsd-kind-icon">throw<wbr>Error<wbr>When<wbr>Incompatible</a></li>
 							</ul>
@@ -129,25 +131,25 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Music<wbr>Time<span class="tsd-signature-symbol">(</span>bars<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, beats<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, sixteenths<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span>, beatsPerBar<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, sixteenthsPerBeat<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="musictime.html" class="tsd-signature-type">MusicTime</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Music<wbr>Time<span class="tsd-signature-symbol">(</span>bars<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, beats<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, sixteenths<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, beatsPerBar<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span>, sixteenthsPerBeat<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="musictime.html" class="tsd-signature-type">MusicTime</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/petervdn/musictime/blob/c76e1c6/src/lib/MusicTime.ts#L12">lib/MusicTime.ts:12</a></li>
+									<li>Defined in <a href="https://github.com/petervdn/musictime/blob/a1a51fd/src/lib/MusicTime.ts#L12">lib/MusicTime.ts:12</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>bars: <span class="tsd-signature-type">number</span></h5>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> bars: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></h5>
 								</li>
 								<li>
-									<h5>beats: <span class="tsd-signature-type">number</span></h5>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> beats: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></h5>
 								</li>
 								<li>
-									<h5>sixteenths: <span class="tsd-signature-type">number</span></h5>
+									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> sixteenths: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;0</span></h5>
 								</li>
 								<li>
 									<h5><span class="tsd-flag ts-flagDefault value">Default value</span> beatsPerBar: <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> =&nbsp;4</span></h5>
@@ -169,7 +171,7 @@
 					<div class="tsd-signature tsd-kind-icon">bars<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/petervdn/musictime/blob/c76e1c6/src/lib/MusicTime.ts#L11">lib/MusicTime.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/petervdn/musictime/blob/a1a51fd/src/lib/MusicTime.ts#L11">lib/MusicTime.ts:11</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -179,7 +181,7 @@
 					<div class="tsd-signature tsd-kind-icon">beats<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/petervdn/musictime/blob/c76e1c6/src/lib/MusicTime.ts#L10">lib/MusicTime.ts:10</a></li>
+							<li>Defined in <a href="https://github.com/petervdn/musictime/blob/a1a51fd/src/lib/MusicTime.ts#L10">lib/MusicTime.ts:10</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -189,7 +191,7 @@
 					<div class="tsd-signature tsd-kind-icon">beats<wbr>Per<wbr>Bar<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/petervdn/musictime/blob/c76e1c6/src/lib/MusicTime.ts#L8">lib/MusicTime.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/petervdn/musictime/blob/a1a51fd/src/lib/MusicTime.ts#L8">lib/MusicTime.ts:8</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -199,7 +201,7 @@
 					<div class="tsd-signature tsd-kind-icon">sixteenths<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/petervdn/musictime/blob/c76e1c6/src/lib/MusicTime.ts#L12">lib/MusicTime.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/petervdn/musictime/blob/a1a51fd/src/lib/MusicTime.ts#L12">lib/MusicTime.ts:12</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -209,7 +211,7 @@
 					<div class="tsd-signature tsd-kind-icon">sixteenths<wbr>Per<wbr>Beat<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/petervdn/musictime/blob/c76e1c6/src/lib/MusicTime.ts#L9">lib/MusicTime.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/petervdn/musictime/blob/a1a51fd/src/lib/MusicTime.ts#L9">lib/MusicTime.ts:9</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -219,7 +221,7 @@
 					<div class="tsd-signature tsd-kind-icon">TO_<wbr>TIME_<wbr>CACHE<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/petervdn/musictime/blob/c76e1c6/src/lib/MusicTime.ts#L6">lib/MusicTime.ts:6</a></li>
+							<li>Defined in <a href="https://github.com/petervdn/musictime/blob/a1a51fd/src/lib/MusicTime.ts#L6">lib/MusicTime.ts:6</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -254,7 +256,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/petervdn/musictime/blob/c76e1c6/src/lib/MusicTime.ts#L65">lib/MusicTime.ts:65</a></li>
+									<li>Defined in <a href="https://github.com/petervdn/musictime/blob/a1a51fd/src/lib/MusicTime.ts#L64">lib/MusicTime.ts:64</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -282,7 +284,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/petervdn/musictime/blob/c76e1c6/src/lib/MusicTime.ts#L117">lib/MusicTime.ts:117</a></li>
+									<li>Defined in <a href="https://github.com/petervdn/musictime/blob/a1a51fd/src/lib/MusicTime.ts#L116">lib/MusicTime.ts:116</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -304,7 +306,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/petervdn/musictime/blob/c76e1c6/src/lib/MusicTime.ts#L92">lib/MusicTime.ts:92</a></li>
+									<li>Defined in <a href="https://github.com/petervdn/musictime/blob/a1a51fd/src/lib/MusicTime.ts#L91">lib/MusicTime.ts:91</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -332,7 +334,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/petervdn/musictime/blob/c76e1c6/src/lib/MusicTime.ts#L34">lib/MusicTime.ts:34</a></li>
+									<li>Defined in <a href="https://github.com/petervdn/musictime/blob/a1a51fd/src/lib/MusicTime.ts#L34">lib/MusicTime.ts:34</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -355,7 +357,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/petervdn/musictime/blob/c76e1c6/src/lib/MusicTime.ts#L83">lib/MusicTime.ts:83</a></li>
+									<li>Defined in <a href="https://github.com/petervdn/musictime/blob/a1a51fd/src/lib/MusicTime.ts#L82">lib/MusicTime.ts:82</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -383,7 +385,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/petervdn/musictime/blob/c76e1c6/src/lib/MusicTime.ts#L99">lib/MusicTime.ts:99</a></li>
+									<li>Defined in <a href="https://github.com/petervdn/musictime/blob/a1a51fd/src/lib/MusicTime.ts#L98">lib/MusicTime.ts:98</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -405,7 +407,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/petervdn/musictime/blob/c76e1c6/src/lib/MusicTime.ts#L74">lib/MusicTime.ts:74</a></li>
+									<li>Defined in <a href="https://github.com/petervdn/musictime/blob/a1a51fd/src/lib/MusicTime.ts#L73">lib/MusicTime.ts:73</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -433,7 +435,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/petervdn/musictime/blob/c76e1c6/src/lib/MusicTime.ts#L143">lib/MusicTime.ts:143</a></li>
+									<li>Defined in <a href="https://github.com/petervdn/musictime/blob/a1a51fd/src/lib/MusicTime.ts#L142">lib/MusicTime.ts:142</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -455,7 +457,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/petervdn/musictime/blob/c76e1c6/src/lib/MusicTime.ts#L155">lib/MusicTime.ts:155</a></li>
+									<li>Defined in <a href="https://github.com/petervdn/musictime/blob/a1a51fd/src/lib/MusicTime.ts#L154">lib/MusicTime.ts:154</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -477,7 +479,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/petervdn/musictime/blob/c76e1c6/src/lib/MusicTime.ts#L131">lib/MusicTime.ts:131</a></li>
+									<li>Defined in <a href="https://github.com/petervdn/musictime/blob/a1a51fd/src/lib/MusicTime.ts#L130">lib/MusicTime.ts:130</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -499,9 +501,14 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/petervdn/musictime/blob/c76e1c6/src/lib/MusicTime.ts#L159">lib/MusicTime.ts:159</a></li>
+									<li>Defined in <a href="https://github.com/petervdn/musictime/blob/a1a51fd/src/lib/MusicTime.ts#L162">lib/MusicTime.ts:162</a></li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns a readable string.</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
 						</li>
 					</ul>
@@ -516,7 +523,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/petervdn/musictime/blob/c76e1c6/src/lib/MusicTime.ts#L46">lib/MusicTime.ts:46</a></li>
+									<li>Defined in <a href="https://github.com/petervdn/musictime/blob/a1a51fd/src/lib/MusicTime.ts#L45">lib/MusicTime.ts:45</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -534,6 +541,28 @@
 						</li>
 					</ul>
 				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="valueof" class="tsd-anchor"></a>
+					<h3>value<wbr>Of</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">value<wbr>Of<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">number</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/petervdn/musictime/blob/a1a51fd/src/lib/MusicTime.ts#L170">lib/MusicTime.ts:170</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Calls and returns the result from toSixteenths.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">number</span></h4>
+						</li>
+					</ul>
+				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
 					<a name="add-1" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> add</h3>
@@ -544,7 +573,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/petervdn/musictime/blob/c76e1c6/src/lib/MusicTime.ts#L226">lib/MusicTime.ts:226</a></li>
+									<li>Defined in <a href="https://github.com/petervdn/musictime/blob/a1a51fd/src/lib/MusicTime.ts#L235">lib/MusicTime.ts:235</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -575,7 +604,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/petervdn/musictime/blob/c76e1c6/src/lib/MusicTime.ts#L30">lib/MusicTime.ts:30</a></li>
+									<li>Defined in <a href="https://github.com/petervdn/musictime/blob/a1a51fd/src/lib/MusicTime.ts#L30">lib/MusicTime.ts:30</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -592,7 +621,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/petervdn/musictime/blob/c76e1c6/src/lib/MusicTime.ts#L242">lib/MusicTime.ts:242</a></li>
+									<li>Defined in <a href="https://github.com/petervdn/musictime/blob/a1a51fd/src/lib/MusicTime.ts#L251">lib/MusicTime.ts:251</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -623,7 +652,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/petervdn/musictime/blob/c76e1c6/src/lib/MusicTime.ts#L181">lib/MusicTime.ts:181</a></li>
+									<li>Defined in <a href="https://github.com/petervdn/musictime/blob/a1a51fd/src/lib/MusicTime.ts#L192">lib/MusicTime.ts:192</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -657,7 +686,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/petervdn/musictime/blob/c76e1c6/src/lib/MusicTime.ts#L270">lib/MusicTime.ts:270</a></li>
+									<li>Defined in <a href="https://github.com/petervdn/musictime/blob/a1a51fd/src/lib/MusicTime.ts#L309">lib/MusicTime.ts:309</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -692,7 +721,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/petervdn/musictime/blob/c76e1c6/src/lib/MusicTime.ts#L258">lib/MusicTime.ts:258</a></li>
+									<li>Defined in <a href="https://github.com/petervdn/musictime/blob/a1a51fd/src/lib/MusicTime.ts#L297">lib/MusicTime.ts:297</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -714,6 +743,34 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
+					<a name="stringisvalid" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagStatic">Static</span> string<wbr>IsValid</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
+						<li class="tsd-signature tsd-kind-icon">string<wbr>IsValid<span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/petervdn/musictime/blob/a1a51fd/src/lib/MusicTime.ts#L266">lib/MusicTime.ts:266</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Checks if a string can be used in MusicTime.fromString();</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>value: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-is-static">
 					<a name="subtract-1" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagStatic">Static</span> subtract</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class tsd-is-static">
@@ -723,7 +780,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/petervdn/musictime/blob/c76e1c6/src/lib/MusicTime.ts#L169">lib/MusicTime.ts:169</a></li>
+									<li>Defined in <a href="https://github.com/petervdn/musictime/blob/a1a51fd/src/lib/MusicTime.ts#L180">lib/MusicTime.ts:180</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -754,7 +811,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/petervdn/musictime/blob/c76e1c6/src/lib/MusicTime.ts#L201">lib/MusicTime.ts:201</a></li>
+									<li>Defined in <a href="https://github.com/petervdn/musictime/blob/a1a51fd/src/lib/MusicTime.ts#L210">lib/MusicTime.ts:210</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -847,6 +904,9 @@
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="musictime.html#totime" class="tsd-kind-icon">to<wbr>Time</a>
 							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="musictime.html#valueof" class="tsd-kind-icon">value<wbr>Of</a>
+							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
 								<a href="musictime.html#add-1" class="tsd-kind-icon">add</a>
 							</li>
@@ -864,6 +924,9 @@
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
 								<a href="musictime.html#multiply-1" class="tsd-kind-icon">multiply</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
+								<a href="musictime.html#stringisvalid" class="tsd-kind-icon">string<wbr>IsValid</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class tsd-is-static">
 								<a href="musictime.html#subtract-1" class="tsd-kind-icon">subtract</a>

@@ -1,15 +1,19 @@
-export default class MusicTime {
-  /**
-   * hashmap for the results of toTime(bpm) calls
-   * @type {{}}
-   */
-  public static TO_TIME_CACHE: { [key: string]: number } = {};
+// interface ITimeConfig {
+//   beatsPerBar: number;
+//   sixteenthsPerBeat: number;
+// }
 
+interface IBarsBeatsSixteenths {
+  bars: number;
+  beats: number;
+  sixteenths: number;
+  remainingBars: number;
+}
+
+export default class MusicTime {
   public beatsPerBar: number;
   public sixteenthsPerBeat: number;
-  public beats: number;
-  public bars: number;
-  public sixteenths: number;
+  private _beats: number;
 
   constructor(
     bars: number = 0,
@@ -18,23 +22,27 @@ export default class MusicTime {
     beatsPerBar: number = 4,
     sixteenthsPerBeat: number = 4,
   ) {
-    this.bars = bars;
-    this.beats = beats;
-    this.sixteenths = sixteenths;
     this.beatsPerBar = beatsPerBar;
     this.sixteenthsPerBeat = sixteenthsPerBeat;
-
-    this.normalize();
+    this._beats = bars * beatsPerBar + beats + sixteenths / sixteenthsPerBeat;
   }
 
-  public static clearCache(): void {
-    MusicTime.TO_TIME_CACHE = {};
-  }
+  /**
+   *
+   * @returns {IBarsBeatsSixteenths}
+   */
+  public getBarsBeatsSixteenths(): IBarsBeatsSixteenths {
+    const totalSixteenths = Math.floor(this._beats * this.sixteenthsPerBeat);
+    const sixteenthsPerBar = this.sixteenthsPerBeat * this.beatsPerBar;
+    const bars = Math.floor(totalSixteenths / sixteenthsPerBar);
+    const beats = Math.floor((totalSixteenths - bars * sixteenthsPerBar) / this.sixteenthsPerBeat);
 
-  private getCacheKey(bpm: number): string {
-    return `${bpm}-${this.bars}-${this.beats}-${this.sixteenths}-${this.beatsPerBar}-${
-      this.sixteenthsPerBeat
-    }`;
+    return {
+      bars,
+      beats,
+      sixteenths: totalSixteenths - bars * sixteenthsPerBar - beats * this.sixteenthsPerBeat,
+      remainingBars: 0,
+    };
   }
 
   /**
@@ -43,17 +51,7 @@ export default class MusicTime {
    * @returns {number}
    */
   public toTime(bpm: number): number {
-    const cacheKey = this.getCacheKey(bpm);
-    if (MusicTime.TO_TIME_CACHE[cacheKey] === void 0) {
-      // no cached value exists
-      const beats =
-        this.bars * this.beatsPerBar + this.beats + this.sixteenths / this.sixteenthsPerBeat;
-
-      // add to cache hashmap
-      MusicTime.TO_TIME_CACHE[cacheKey] = beats * 60 / bpm;
-    }
-
-    return MusicTime.TO_TIME_CACHE[cacheKey];
+    return this._beats * 60 / bpm;
   }
 
   /**
@@ -93,66 +91,23 @@ export default class MusicTime {
   }
 
   /**
-   * Makes sure the beats don't exceed the beatsPerbar, and the sixteenths don't exceed sixteenthsPerBeat.
-   */
-  private normalize(): void {
-    const sixteenths = this.sixteenths % this.sixteenthsPerBeat;
-    const beatsFromSixteenths = Math.floor(this.sixteenths / this.sixteenthsPerBeat);
-
-    const beats = (this.beats + beatsFromSixteenths) % this.beatsPerBar;
-    const barsFromBeats = Math.floor((this.beats + beatsFromSixteenths) / this.beatsPerBar);
-
-    const bars = this.bars + barsFromBeats;
-
-    this.sixteenths = sixteenths;
-    this.beats = beats;
-    this.bars = bars;
-  }
-
-  /**
    * Create a clone of the instance.
    * @returns {MusicTime}
    */
   public clone(): MusicTime {
-    return new MusicTime(
-      this.bars,
-      this.beats,
-      this.sixteenths,
-      this.beatsPerBar,
-      this.sixteenthsPerBeat,
-    );
+    return new MusicTime(0, this._beats);
   }
 
-  /**
-   * Gets the amount of sixteenths (will always be an integer since 16ths is the smallest grid)
-   * @returns {number}
-   */
-  public toSixteenths(): number {
-    return (
-      this.sixteenths +
-      this.sixteenthsPerBeat * this.beats +
-      this.sixteenthsPerBeat * this.beatsPerBar * this.bars
-    );
+  public getBars(): number {
+    return this._beats / this.beatsPerBar;
   }
 
-  /**
-   * Gets the amount of bars (can be float)
-   * @returns {number}
-   */
-  public toBarsFloat(): number {
-    return (
-      this.bars +
-      this.beats / this.beatsPerBar +
-      this.sixteenths / this.sixteenthsPerBeat / this.beatsPerBar
-    );
+  public getBeats(): number {
+    return this._beats;
   }
 
-  /**
-   * Gets the amount of bars (can be float)
-   * @returns {number}
-   */
-  public toBeatsFloat(): number {
-    return this.bars * this.beatsPerBar + this.beats + this.sixteenths / this.sixteenthsPerBeat;
+  public getSixteenths(): number {
+    return this._beats * this.sixteenthsPerBeat;
   }
 
   /**
@@ -160,15 +115,16 @@ export default class MusicTime {
    * @returns {string}
    */
   public toString(): string {
-    return this.bars + '.' + this.beats + '.' + this.sixteenths;
+    const bbs = this.getBarsBeatsSixteenths();
+    return `${bbs.bars}.${bbs.beats}.${bbs.sixteenths}`;
   }
 
   /**
-   * Calls and returns the result from toSixteenths.
+   * Returns the amount of beats.
    * @returns {number}
    */
   public valueOf(): number {
-    return this.toSixteenths();
+    return this._beats;
   }
 
   /**
@@ -179,7 +135,7 @@ export default class MusicTime {
    */
   public static subtract(time1: MusicTime, time2: MusicTime): MusicTime {
     this.throwErrorWhenIncompatible('subtract', time1, time2);
-    return new MusicTime(0, 0, time1.toSixteenths() - time2.toSixteenths());
+    return new MusicTime(0, time1._beats - time2._beats);
   }
 
   /**
@@ -234,12 +190,7 @@ export default class MusicTime {
    */
   public static add(time1: MusicTime, time2: MusicTime): MusicTime {
     MusicTime.throwErrorWhenIncompatible('add', time1, time2);
-
-    return new MusicTime(
-      time1.bars + time2.bars,
-      time1.beats + time2.beats,
-      time1.sixteenths + time2.sixteenths,
-    ); // todo fix with toValue(), like the other operations
+    return new MusicTime(0, time1._beats + time2._beats);
   }
 
   /**
@@ -249,13 +200,7 @@ export default class MusicTime {
    * @returns {boolean}
    */
   public static equals(time1: MusicTime, time2: MusicTime): boolean {
-    return (
-      time1.beatsPerBar === time2.beatsPerBar &&
-      time1.sixteenthsPerBeat === time2.sixteenthsPerBeat &&
-      time1.bars === time2.bars &&
-      time1.beats === time2.beats &&
-      time1.sixteenths === time2.sixteenths
-    );
+    return time1._beats === time2._beats;
   }
 
   /**
@@ -295,7 +240,7 @@ export default class MusicTime {
    * @returns {MusicTime}
    */
   public static multiply(time: MusicTime, value: number): MusicTime {
-    return new MusicTime(0, 0, time.toSixteenths() * value);
+    return new MusicTime(0, time._beats * value);
   }
 
   /**
