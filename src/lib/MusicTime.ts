@@ -167,6 +167,9 @@ export default class MusicTime {
    */
   public toString(): string {
     const bbs = this.getBarsBeatsSixteenths();
+    if (bbs.remainingSixteenths > 0) {
+      return `${bbs.bars}.${bbs.beats}.${bbs.sixteenths} [${bbs.remainingSixteenths.toFixed(2)}]`;
+    }
     return `${bbs.bars}.${bbs.beats}.${bbs.sixteenths}`;
   }
 

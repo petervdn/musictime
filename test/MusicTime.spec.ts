@@ -59,10 +59,32 @@ describe('MusicTime', () => {
     expect(conf.beatsPerBar).to.equal(4);
   });
 
-  it('should set timeConfig', () => {
+  it('should set timeConfig from constructor', () => {
     const conf = new MusicTime(0, 0, 0, {sixteenthsPerBeat: 3, beatsPerBar: 4}).getTimeConfig();
     expect(conf.sixteenthsPerBeat).to.equal(3);
     expect(conf.beatsPerBar).to.equal(4);
+  });
+
+  it('should set timeConfig from setter', () => {
+    const time = new MusicTime(0, 0, 0, {sixteenthsPerBeat: 4, beatsPerBar: 4});
+    const conf = time.getTimeConfig();
+    expect(conf.sixteenthsPerBeat).to.equal(4);
+    expect(conf.beatsPerBar).to.equal(4);
+
+    time.setTimeConfig({sixteenthsPerBeat: 3, beatsPerBar: 3});
+    const conf2 = time.getTimeConfig();
+
+    expect(conf2.sixteenthsPerBeat).to.equal(3);
+    expect(conf2.beatsPerBar).to.equal(3);
+  });
+
+  it('should clone when retrieving timeConfig', () => {
+    const time = new MusicTime(0, 0, 0, {sixteenthsPerBeat: 4, beatsPerBar: 4});
+    const conf = time.getTimeConfig();
+    expect(conf.sixteenthsPerBeat).to.equal(4);
+    conf.sixteenthsPerBeat = 3;
+    expect(conf.sixteenthsPerBeat).to.equal(3);
+    expect(time.getTimeConfig().sixteenthsPerBeat).to.equal(4);
   });
 
   it('should convert to full bars', () => {
