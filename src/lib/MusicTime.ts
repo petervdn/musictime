@@ -1,7 +1,7 @@
-// interface ITimeConfig {
-//   beatsPerBar: number;
-//   sixteenthsPerBeat: number;
-// }
+interface ITimeConfig {
+  beatsPerBar: number;
+  sixteenthsPerBeat: number;
+}
 
 interface IBarsBeatsSixteenths {
   bars: number;
@@ -11,20 +11,24 @@ interface IBarsBeatsSixteenths {
 }
 
 export default class MusicTime {
-  public beatsPerBar: number;
-  public sixteenthsPerBeat: number;
+  // public beatsPerBar: number;
+  // public sixteenthsPerBeat: number;
   private _beats: number;
+  private _timeConfig: ITimeConfig;
 
   constructor(
     bars: number = 0,
     beats: number = 0,
     sixteenths: number = 0,
-    beatsPerBar: number = 4,
-    sixteenthsPerBeat: number = 4,
+    timeConfig?: ITimeConfig,
   ) {
-    this.beatsPerBar = beatsPerBar;
-    this.sixteenthsPerBeat = sixteenthsPerBeat;
-    this._beats = bars * beatsPerBar + beats + sixteenths / sixteenthsPerBeat;
+    this._timeConfig = {
+      sixteenthsPerBeat: (timeConfig && timeConfig.sixteenthsPerBeat) || 4,
+      beatsPerBar: (timeConfig && timeConfig.beatsPerBar) || 4,
+    };
+
+    this._beats =
+      bars * this._timeConfig.beatsPerBar + beats + sixteenths / this._timeConfig.sixteenthsPerBeat;
   }
 
   /**
@@ -32,16 +36,26 @@ export default class MusicTime {
    * @returns {IBarsBeatsSixteenths}
    */
   public getBarsBeatsSixteenths(): IBarsBeatsSixteenths {
-    const totalSixteenths = Math.floor(this._beats * this.sixteenthsPerBeat);
-    const sixteenthsPerBar = this.sixteenthsPerBeat * this.beatsPerBar;
+    const totalSixteenths = Math.floor(this._beats * this._timeConfig.sixteenthsPerBeat);
+    const sixteenthsPerBar = this._timeConfig.sixteenthsPerBeat * this._timeConfig.beatsPerBar;
     const bars = Math.floor(totalSixteenths / sixteenthsPerBar);
-    const beats = Math.floor((totalSixteenths - bars * sixteenthsPerBar) / this.sixteenthsPerBeat);
+    const beats = Math.floor(
+      (totalSixteenths - bars * sixteenthsPerBar) / this._timeConfig.sixteenthsPerBeat,
+    );
 
     return {
       bars,
       beats,
-      sixteenths: totalSixteenths - bars * sixteenthsPerBar - beats * this.sixteenthsPerBeat,
+      sixteenths:
+        totalSixteenths - bars * sixteenthsPerBar - beats * this._timeConfig.sixteenthsPerBeat,
       remainingBars: 0,
+    };
+  }
+
+  public getTimeConfig(): ITimeConfig {
+    return {
+      sixteenthsPerBeat: this._timeConfig.sixteenthsPerBeat,
+      beatsPerBar: this._timeConfig.beatsPerBar,
     };
   }
 
@@ -99,7 +113,7 @@ export default class MusicTime {
   }
 
   public getTotalBars(): number {
-    return this._beats / this.beatsPerBar;
+    return this._beats / this._timeConfig.beatsPerBar;
   }
 
   public getTotalBeats(): number {
@@ -107,7 +121,7 @@ export default class MusicTime {
   }
 
   public getTotalSixteenths(): number {
-    return this._beats * this.sixteenthsPerBeat;
+    return this._beats * this._timeConfig.sixteenthsPerBeat;
   }
 
   /**
@@ -128,14 +142,33 @@ export default class MusicTime {
   }
 
   /**
-   * Subtracts two MusicTimes.
+   * Subtracts two MusicTimes. The timeConfig of the first time will be used in the result.
    * @param {MusicTime} time1
    * @param {MusicTime} time2
    * @returns {MusicTime}
    */
   public static subtract(time1: MusicTime, time2: MusicTime): MusicTime {
-    this.throwErrorWhenIncompatible('subtract', time1, time2);
-    return new MusicTime(0, time1._beats - time2._beats);
+    return new MusicTime(0, time1._beats - time2._beats, 0, time1.getTimeConfig());
+  }
+
+  /**
+   * Returns the sum of two times. The timeConfig of the first time will be used in the result.
+   * @param {MusicTime} time1
+   * @param {MusicTime} time2
+   * @returns {MusicTime}
+   */
+  public static add(time1: MusicTime, time2: MusicTime): MusicTime {
+    return new MusicTime(0, time1._beats + time2._beats, 0, time1.getTimeConfig());
+  }
+
+  /**
+   * Multiplies the time with a value. The time's timeConfig will be used in the result.
+   * @param {MusicTime} time
+   * @param {number} value
+   * @returns {MusicTime}
+   */
+  public static multiply(time: MusicTime, value: number): MusicTime {
+    return new MusicTime(0, time._beats * value, 0, time.getTimeConfig());
   }
 
   /**
@@ -154,43 +187,10 @@ export default class MusicTime {
       throw new Error('Invalid string');
     }
     const split: string[] = value.split('.');
-    return new MusicTime(
-      parseInt(split[0], 10),
-      parseInt(split[1], 10),
-      parseInt(split[2], 10),
+    return new MusicTime(parseInt(split[0], 10), parseInt(split[1], 10), parseInt(split[2], 10), {
       beatsPerBar,
       sixteenthsPerBeat,
-    );
-  }
-
-  private static throwErrorWhenIncompatible(
-    operation: string,
-    time1: MusicTime,
-    time2: MusicTime,
-  ): void {
-    if (
-      time1.beatsPerBar !== time2.beatsPerBar ||
-      time1.sixteenthsPerBeat !== time2.sixteenthsPerBeat
-    ) {
-      throw new Error(
-        `Cannot ${operation} when beatsPerBar (${time1.beatsPerBar},${
-          time2.beatsPerBar
-        }) or sixteenthsPerBeat (${time1.sixteenthsPerBeat},${
-          time2.sixteenthsPerBeat
-        }) are not equal`,
-      );
-    }
-  }
-
-  /**
-   * Returns the sum of two times.
-   * @param {MusicTime} time1
-   * @param {MusicTime} time2
-   * @returns {MusicTime}
-   */
-  public static add(time1: MusicTime, time2: MusicTime): MusicTime {
-    MusicTime.throwErrorWhenIncompatible('add', time1, time2);
-    return new MusicTime(0, time1._beats + time2._beats);
+    });
   }
 
   /**
@@ -231,16 +231,6 @@ export default class MusicTime {
     }
 
     return true;
-  }
-
-  /**
-   * Returns the multiplication of a times with a value.
-   * @param {MusicTime} time
-   * @param {number} value
-   * @returns {MusicTime}
-   */
-  public static multiply(time: MusicTime, value: number): MusicTime {
-    return new MusicTime(0, time._beats * value);
   }
 
   /**

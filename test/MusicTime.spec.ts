@@ -45,12 +45,6 @@ describe('MusicTime', () => {
     expect(new MusicTime(0,8,0).subtract(new MusicTime(1,0,0)).toString()).to.equal('1.0.0');
   });
 
-  it('should fail when adding two incompatible times', () => {
-    expect(() => {
-      new MusicTime(0,1,0,3).add(new MusicTime(0,1,0)).toString()
-    }).to.throw();
-  });
-
   it('should check equality', () => {
     const t1 = MusicTime.fromString('1.0.1');
     const t2 = MusicTime.fromString('1.0.01');

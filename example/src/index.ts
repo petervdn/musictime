@@ -2,7 +2,7 @@ import MusicTime from '../../src/lib/MusicTime';
 
 ['1.0.0', '1.2.3', '1.4.0', '21.0.12'].forEach(entry => {
   const time = MusicTime.fromString(entry);
-  console.log(entry, time.getBBS(), time.beats, time.toString());
+  console.log(entry, time.getBarsBeatsSixteenths(), time.getTotalBeats(), time.toString());
 });
 
 
