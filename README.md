@@ -15,7 +15,7 @@ const bpm = 120;
   MusicTime.fromString(timeString).toTime(bpm); // gives time in seconds
 });
 ```
-Note that `bars`, `beats` and `sixteenths` all start at 0. This obviously makes sense programatically but might be slightly counterintuitive from a musical perspective (counting 0,1,2,3 instead of 1,2,3,4).
+Note that `bars`, `beats` and `sixteenths` all start at 0. This might be slightly counterintuitive from a musical perspective (counting 0,1,2,3 instead of 1,2,3,4).
 ## install
 
 ```sh
