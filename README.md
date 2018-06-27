@@ -3,7 +3,7 @@
 A class that helps with timings in a musical context. Instances are defined on a grid of [bars](https://en.wikipedia.org/wiki/Bar_(music)), [beats](https://en.wikipedia.org/wiki/Beat_(music)) and [sixteenths](https://en.wikipedia.org/wiki/Sixteenth_note) and can be converted to and from actual time in seconds.
 
 ## example usecase
-Easily define timings for a [drumloop](https://makingmusic.ableton.com/programming-beats-2-linear-drumming-1.png)
+Easily define timings for a [drumloop](https://makingmusic.ableton.com/programming-beats-2-linear-drumming-1.png) (the strings used are of the format `BARS . BEATS . SIXTEENTHS`)
 ```javascript
 const kickTimings = ['0.0.0', '0.1.0', '0.2.0', '0.3.0'];
 const snareTimings = ['0.1.0', '0.3.0'];
@@ -15,7 +15,7 @@ const bpm = 120;
   MusicTime.fromString(timeString).toTime(bpm); // gives time in seconds
 });
 ```
-
+Note that `bars`, `beats` and `sixteenths` all start at 0. This obviously makes sense programatically but might be slightly counterintuitive from a musical perspective (counting 0,1,2,3 instead of 1,2,3,4).
 ## install
 
 ```sh
@@ -39,7 +39,6 @@ const t2 = MusicTime.fromString('1.2.3');
 // creates an instance at 10s (at 120bpm)
 const t5 = MusicTime.fromTime(10, 120);
 ```
-Note that `bars`, `beats` and `sixteenths` all start at 0. This obviously makes sense programatically but might be slightly counterintuitive from a musical perspective (counting 0,1,2,3 instead of 1,2,3,4).
 
 ## converting to seconds
 The most common thing to do with a `MusicTime` instance is converting to seconds. You can do this by supplying the tempo in beats per minute (BPM):
