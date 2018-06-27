@@ -89,10 +89,13 @@ export default class MusicTime {
   }
 
   /**
-   * Set the timeConfig.
+   * Sets the timeConfig.
    * @param {ITimeConfig} value
    */
   public setTimeConfig(value: ITimeConfig): void {
+    if (!value) {
+      throw new Error('No TimeConfig');
+    }
     this._timeConfig = value;
   }
 
@@ -167,9 +170,9 @@ export default class MusicTime {
    */
   public toString(): string {
     const bbs = this.getBarsBeatsSixteenths();
-    if (bbs.remainingSixteenths > 0) {
-      return `${bbs.bars}.${bbs.beats}.${bbs.sixteenths} [${bbs.remainingSixteenths.toFixed(2)}]`;
-    }
+    // if (bbs.remainingSixteenths > 0) {
+    //   return `${bbs.bars}.${bbs.beats}.${bbs.sixteenths} [${bbs.remainingSixteenths.toFixed(2)}]`;
+    // }
     return `${bbs.bars}.${bbs.beats}.${bbs.sixteenths}`;
   }
 
