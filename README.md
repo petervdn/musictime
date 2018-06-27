@@ -38,7 +38,7 @@ new MusicTime(0,120,0).toTime(120);
 
 ## bars, beats, sixteenths grid
 
-Every `MusicTime` instance ends up on the bars/beats/sixteenths grid, which can be seen using the `getBarsBeatsSixteenths` method. In the resulting object, all these three values will be integers, any remaining time (when a time can not be placed exactly on the grid) can be found in the `remainingSixteenths` property (defined as a factor of sixteenths, which obviously can be a float).
+Every `MusicTime` instance ends up on the bars/beats/sixteenths grid, which can be seen using the `getBarsBeatsSixteenths` method. In the resulting object, all these three values will be integers, any remaining time (when the instance can not be placed exactly on the grid) can be found in the `remainingSixteenths` property (defined as a factor of sixteenths).
 ```javascript
 new MusicTime(1, 0, 0).getBarsBeatsSixteenths();
 // {bars: 1, beats: 0, sixteenths: 0, remainingSixteenths: 0}
