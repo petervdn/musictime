@@ -91,6 +91,13 @@ const clone = result1.clone();    // clones the instance
 new MusicTime(1,2,3).toString();  // "1.2.3"
 ```
 
+When adding or subtracting, the resulting (newly created) instance will use the `sixteenthsPerBeat` and `beatsPerBar` settings from the instance that comes first:
+```javascript
+// in both cases: result will have the settings from t1
+const result = t1.add(t2);
+const result = MusicTime.add(t1, t2);
+```
+
 ## comparison
 Instances have a `valueOf` method, which makes direct comparison through relational operators (`> < >= <=`) possible:
 ```javascript
@@ -100,7 +107,7 @@ const time2 = new MusicTime(2, 0, 0);
 time1 > time2 // true
 time1 < time2 // false
 ```
-Note that this has nothing to do with checking equality (`==`, `===`, `!=`, `!==`).
+Note that this does not affect checking equality (`==`, `===`, `!=`, `!==`).
 
 
 ## limitations
