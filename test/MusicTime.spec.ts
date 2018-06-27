@@ -30,6 +30,17 @@ describe('MusicTime', () => {
     expect(new MusicTime(0,8,0).multiply(4).toString()).to.equal('8.0.0');
   });
 
+  it('should construct from fractional params', () => {
+    expect(new MusicTime(0.5,0,0).toString()).to.equal('0.2.0');
+    expect(new MusicTime(0,0.5,0).toString()).to.equal('0.0.2');
+    expect(new MusicTime(0,0,1.5).toString()).to.equal('0.0.1');
+  });
+
+  it('should store remaining time', () => {
+    const t1 = new MusicTime(0,0,1.5);
+    expect(t1.getBarsBeatsSixteenths().remainingSixteenths).to.equal(0.5);
+  });
+
   it('should check validness of strings', () => {
     const valid = ['0.0.0', '100.100.100'];
     const invalid = ['-1.0.0', '0.0.-1', 'a.b.c', '1', '1.2', '..', 'test'];
@@ -39,6 +50,12 @@ describe('MusicTime', () => {
 
     expect(validChecks.every(entry => entry === true)).to.equal(true);
     expect(invalidChecks.every(entry => entry === false)).to.equal(true);
+  });
+
+  it('should fail when creating an instance from an invalid string', () => {
+    expect(() => {
+      MusicTime.fromString('invalid')
+    }).to.throw();
   });
 
   it('should subtract two compatible times', () => {
@@ -76,6 +93,13 @@ describe('MusicTime', () => {
 
     expect(conf2.sixteenthsPerBeat).to.equal(3);
     expect(conf2.beatsPerBar).to.equal(3);
+  });
+
+  it('should fail when setting timeConfig to null', () => {
+    const t1 = new MusicTime();
+    expect(() => {
+      t1.setTimeConfig(null);
+    }).to.throw();
   });
 
   it('should clone when retrieving timeConfig', () => {
@@ -120,12 +144,6 @@ describe('MusicTime', () => {
       new MusicTime(1, 2).toString(),
     ];
     expect(items).to.deep.equal(['0.0.0', '1.0.0', '1.2.0']);
-  });
-
-  it('should fail when creating an instance from an invalid string', () => {
-    expect(() => {
-      MusicTime.fromString('invalid')
-    }).to.throw();
   });
 
   it('should compare instances', () => {
