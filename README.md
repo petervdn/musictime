@@ -1,6 +1,20 @@
 # musictime
 
-Small class to work with timings in a musical context. They are defined as bars/beats/sixteenths, and can be converted to and from actual time in seconds (by supplying a bpm).
+A class that helps with timings in a musical context. Instances are defined as bars/beats/sixteenths, and can be converted to and from actual time in seconds.
+
+## example usecase
+Easily define timings for a [drumloop](https://makingmusic.ableton.com/programming-beats-2-linear-drumming-1.png)
+```javascript
+const kickTimings = ['0.0.0', '0.1.0', '0.2.0', '0.3.0'];
+const snareTimings = ['0.1.0', '0.3.0'];
+const hihatTimings = ['0.0.0', '0.0.2', '0.1.0', '0.1.2', '0.2.0', '0.2.2', '0.3.0', '0.3.2'];
+
+const bpm = 120;
+
+[...kickTimings, ...snareTimings, ...hihatTimings].forEach(timeString => {
+  console.log(MusicTime.fromString(timeString).toTime(bpm);
+});
+```
 
 ### install
 
@@ -13,44 +27,60 @@ There are a few ways to create a `MusicTime` instance:
 ```javascript
 import MusicTime from 'musictime';
 
-const t1 = new MusicTime(0, 0, 0);            // constructor accepts bars, beats, sixteenths (all 0-based)
-const t2 = MusicTime.fromString('1.2.3');   // parsing from a string can make data with a lot of timings much cleaner
-const t3 = MusicTime.fromTime(10, 120);     // creates an instance at 10s (at 120bpm)
-```
+// constructor accepts bars, beats, sixteenths
+const t1 = new MusicTime(1, 2, 3);
 
-The bars, beats and sixteenths parameters in the constructor all default to `0`.
-```javascript
-new MusicTime()    // same as new MusicTime(0, 0, 0);
-new MusicTime(1)   // new MusicTime(1, 0, 0)
-```
+// all params default to 0
+const t3 = new MusicTime(2);
 
-Each instance has a `bars`, `beats` and `sixteenths` property.
-```typescript
-const time = new MusicTime(1,2,3)
-time1.bars       // 1
-time1.beats      // 2
-time1.sixteenths // 3
+// parse from a string
+const t2 = MusicTime.fromString('1.2.3');
 
-// all times will be normalized after creation:
-const time = new MusicTime(0,0,16); 
-time2.bars       // 1
-time2.beats      // 0
-time2.sixteenths // 0
+// creates an instance at 10s (at 120bpm)
+const t5 = MusicTime.fromTime(10, 120);
 ```
-__At the moment you should not set these 3 properties__ 
 
 ## converting to seconds
-Supply a bpm to convert an instance to seconds.
+The most common thing to do with a `MusicTime` instance is converting to seconds. You can do this by supplying the tempo in beats per minute (BPM):
 ```javascript
 new MusicTime(0,120,0).toTime(120); // = 60
 ```
 
-Results from these `toTime` calls will be stored in a cache, so that multiple requests (with the same bpm) will skip unnessesary calculations. This cache is global and is used by all `MusicTime` instances (`MusicTime.TO_TIME_CACHE`). If for some reason you want to clear this cache:
+
+## bars, beats, sixteenths
+While `MusicTime` instances are purely based on their `beat` value, the concept of `bars` and `sixteenths` are added to to make life easier. By default, 1 bar consists of 4 beats, and 1 beat consists of 4 sixteenths.
 ```javascript
-MusicTime.clearCache();
+// all values are normalized, so 16 sixteenths make up 1 bar
+new MusicTime(0, 0, 16).getBarsBeatsSixteenths();
+// {bars: 1, beats: 0, sixteenths: 0, remainingSixteenths: 0}
+
+new MusicTime(0, 0, 23).getBarsBeatsSixteenths();
+// {bars: 1, beats: 2, sixteenths: 3, remainingSixteenths: 0}
 ```
 
-## some operations
+If you want to change how many beats go in a bar and/or how many sixteenths in a beat, you can pass that info in the constructor:
+```javascript
+new MusicTime(0, 3, 0, {sixteenthsPerBeat: 4, beatsPerBar: 3}).getBarsBeatsSixteenths();
+// {bars: 1, beats: 0, sixteenths: 0, remainingSixteenths: 0}
+```
+
+You are allowed to use floats for the `bars`, `beats` or `sixteenths` values. These will be converted to a strict (integer) grid when calling the `getBarsBeatsSixteenths` method, any remaining time will end up in the `remainingSixteenths` property, as a fraction of the sixteenths.
+```javascript
+new MusicTime(0.5, 0, 0).getBarsBeatsSixteenths();
+// {bars: 0, beats: 2, sixteenths: 0, remainingSixteenths: 0}
+
+new MusicTime(0, 0.5, 0).getBarsBeatsSixteenths();
+// {bars: 0, beats: 0, sixteenths: 2, remainingSixteenths: 0}
+
+new MusicTime(0, 0, 1.5).getBarsBeatsSixteenths();
+// {bars: 0, beats: 0, sixteenths: 1, remainingSixteenths: 0.5}
+```
+
+Some remarks:
+- `bars`, `beats` and `sixteenths` all start at 0. This obviously makes sense programatically but might be slightly counterintuitive from a musical perspective (counting 0,1,2,3 instead of 1,2,3,4).
+- floats are not allowed when using the `fromString` method. You can only use integers there: `MusicTime.fromString('1.2.3')`
+
+## operations
 ```javascript
 // calculations
 const result1 = t1.add(t2);
@@ -67,7 +97,7 @@ new MusicTime(1,2,3).toString();  // "1.2.3"
 ```
 
 ## comparison
-Instances have a `valueOf` method (returning the total number of sixteenths), which makes direct comparison through relational operators (`> < >= <=`) possible:
+Instances have a `valueOf` method, which makes direct comparison through relational operators (`> < >= <=`) possible:
 ```javascript
 const time1 = new MusicTime(1, 0, 0);
 const time2 = new MusicTime(2, 0, 0);
@@ -76,17 +106,8 @@ time1 > time2 // true
 time1 < time2 // false
 ```
 
-## beatsPerBar and sixteenthsPerBeat
-Both values default to 4, but can be overridden in the constructor (4th and 5th parameter, respectively)
-
-```javascript
-new MusicTime(1,2,3,3,8); // 3 beats per bar, 8 sixteenths per beat
-```
 
 
 ## limitations
-- there is currently nothing more than the sixteenth grid (although the `sixteenthsPerBeat` can be adjusted)
-- conversions from a time in seconds will floor to that grid and discard any remaining timeinfo
-- timings with unequal `beatsPerBar` and `sixteenthsPerBeat` settings cannot be summed or subtracted
 - anything regarding negative numbers and timings is untested and will probably lead to incorrect results.
 
