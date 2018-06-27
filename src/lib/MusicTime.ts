@@ -1,9 +1,9 @@
-interface ITimeConfig {
+export interface ITimeConfig {
   beatsPerBar: number;
   sixteenthsPerBeat: number;
 }
 
-interface IBarsBeatsSixteenths {
+export interface IBarsBeatsSixteenths {
   bars: number;
   beats: number;
   sixteenths: number;
