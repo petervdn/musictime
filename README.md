@@ -88,7 +88,7 @@ const result5 = MusicTime.subtract(t2, t1);
 const result6 = MusicTime.multiply(t2, 3);
 
 const clone = result1.clone();    // clones the instance
-new MusicTime(1,2,3).toString();  // "1.2.3"
+new MusicTime(1,2,3).toString();  // "1.2.3". note that this does not show the remainingSixteenths value
 ```
 
 When adding or subtracting, the resulting (newly created) instance will use the `sixteenthsPerBeat` and `beatsPerBar` settings from the instance that comes first:
