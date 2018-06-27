@@ -105,7 +105,7 @@ const time2 = new MusicTime(2, 0, 0);
 time1 > time2 // true
 time1 < time2 // false
 ```
-
+Note that this has nothing to do with checking equality (`==`, `===`, `!=`, `!==`).
 
 
 ## limitations
