@@ -40,6 +40,8 @@ const t2 = MusicTime.fromString('1.2.3');
 const t5 = MusicTime.fromTime(10, 120);
 ```
 
+
+
 ## converting to seconds
 The most common thing to do with a `MusicTime` instance is converting to seconds. You can do this by supplying the tempo in beats per minute (BPM):
 ```javascript
@@ -48,8 +50,16 @@ new MusicTime(0,120,0).toTime(120);
 ```
 
 
-## bars, beats, sixteenths
-While `MusicTime` instances are purely based on their `beat` value, the concept of `bars` and `sixteenths` are added to to make life easier. By default, 1 bar consists of 4 beats, and 1 beat consists of 4 sixteenths. Calling the `getBarsBeatsSixteenths` method gives you information where the instance is on the grid.
+## bars, beats, sixteenths grid
+
+Every `MusicTime` instance ends up on the bars/beats/sixteenths grid, which can be seen using the `getBarsBeatsSixteenths` method. In the resulting object, all these three values will be integers, any remaining time (when a time can not be placed exactly on the grid) can be found in the `remainingSixteenths` property (defined as a factor of sixteenths, which obviously can be a float).
+```javascript
+new MusicTime(1, 0, 0).getBarsBeatsSixteenths();
+// {bars: 1, beats: 0, sixteenths: 0, remainingSixteenths: 0}
+```
+
+
+By default, 1 `bar` consists of 4 `beats`, and 1 `beat` consists of 4 `sixteenths`.
 ```javascript
 // all values are normalized, so 16 sixteenths make up 1 bar
 new MusicTime(0, 0, 16).getBarsBeatsSixteenths();
@@ -65,7 +75,7 @@ new MusicTime(0, 3, 0, {sixteenthsPerBeat: 4, beatsPerBar: 3}).getBarsBeatsSixte
 // {bars: 1, beats: 0, sixteenths: 0, remainingSixteenths: 0}
 ```
 
-You are allowed to use floats for the `bars`, `beats` or `sixteenths` values. These will be converted to a strict (integer) grid when calling the `getBarsBeatsSixteenths` method, any remaining time will end up in the `remainingSixteenths` property, as a fraction of the sixteenths.
+You are allowed to use floats for the `bars`, `beats` or `sixteenths` values:
 ```javascript
 new MusicTime(0.5, 0, 0).getBarsBeatsSixteenths();
 // {bars: 0, beats: 2, sixteenths: 0, remainingSixteenths: 0}
@@ -77,7 +87,7 @@ new MusicTime(0, 0, 1.5).getBarsBeatsSixteenths();
 // {bars: 0, beats: 0, sixteenths: 1, remainingSixteenths: 0.5}
 ```
 
-(Floats are not allowed in strings that you pass to the `fromString` method. This will result in errors being thrown.)
+(Floats are not allowed in strings that you pass to the `fromString` method. This will result in an error.)
 
 ## operations
 ```javascript
