@@ -1,6 +1,6 @@
 # musictime
 
-A class that helps with timings in a musical context. Instances are defined on a grid of [bars](https://en.wikipedia.org/wiki/Bar_(music)), [beats](https://en.wikipedia.org/wiki/Beat_(music)) and [sixteenths](https://en.wikipedia.org/wiki/Sixteenth_note) grid, and can be converted to and from actual time in seconds.
+A class that helps with timings in a musical context. Instances are defined on a grid of [bars](https://en.wikipedia.org/wiki/Bar_(music)), [beats](https://en.wikipedia.org/wiki/Beat_(music)) and [sixteenths](https://en.wikipedia.org/wiki/Sixteenth_note) and can be converted to and from actual time in seconds.
 
 ## example usecase
 Easily define timings for a [drumloop](https://makingmusic.ableton.com/programming-beats-2-linear-drumming-1.png)
