@@ -26,7 +26,7 @@ const t2 = MusicTime.fromString('1.2.3');
 const t5 = MusicTime.fromTime(10, 120);
 ```
 
-
+Note that `bars`, `beats` and `sixteenths` all start at 0. This might be slightly counterintuitive from a musical perspective (counting 0,1,2,3 instead of 1,2,3,4).
 
 ## converting to seconds
 The most common thing to do with a `MusicTime` instance is converting to seconds. You can do this by supplying the tempo in beats per minute (BPM):
@@ -120,4 +120,4 @@ const bpm = 120;
   MusicTime.fromString(timeString).toTime(bpm); // gives time in seconds
 });
 ```
-Note that `bars`, `beats` and `sixteenths` all start at 0. This might be slightly counterintuitive from a musical perspective (counting 0,1,2,3 instead of 1,2,3,4).
+
