@@ -1,6 +1,6 @@
 # musictime
 
-A class that helps with timings in a musical context. Instances are defined as bars/beats/sixteenths, and can be converted to and from actual time in seconds.
+A class that helps with timings in a musical context. Instances are defined on a bars/beats/sixteenths grid, and can be converted to and from actual time in seconds.
 
 ## example usecase
 Easily define timings for a [drumloop](https://makingmusic.ableton.com/programming-beats-2-linear-drumming-1.png)
@@ -12,11 +12,11 @@ const hihatTimings = ['0.0.0', '0.0.2', '0.1.0', '0.1.2', '0.2.0', '0.2.2', '0.3
 const bpm = 120;
 
 [...kickTimings, ...snareTimings, ...hihatTimings].forEach(timeString => {
-  console.log(MusicTime.fromString(timeString).toTime(bpm);
+  MusicTime.fromString(timeString).toTime(bpm); // gives time in seconds
 });
 ```
 
-### install
+## install
 
 ```sh
 npm install musictime
@@ -39,16 +39,18 @@ const t2 = MusicTime.fromString('1.2.3');
 // creates an instance at 10s (at 120bpm)
 const t5 = MusicTime.fromTime(10, 120);
 ```
+Note that `bars`, `beats` and `sixteenths` all start at 0. This obviously makes sense programatically but might be slightly counterintuitive from a musical perspective (counting 0,1,2,3 instead of 1,2,3,4).
 
 ## converting to seconds
 The most common thing to do with a `MusicTime` instance is converting to seconds. You can do this by supplying the tempo in beats per minute (BPM):
 ```javascript
-new MusicTime(0,120,0).toTime(120); // = 60
+new MusicTime(0,120,0).toTime(120);
+// result = 60
 ```
 
 
 ## bars, beats, sixteenths
-While `MusicTime` instances are purely based on their `beat` value, the concept of `bars` and `sixteenths` are added to to make life easier. By default, 1 bar consists of 4 beats, and 1 beat consists of 4 sixteenths.
+While `MusicTime` instances are purely based on their `beat` value, the concept of `bars` and `sixteenths` are added to to make life easier. By default, 1 bar consists of 4 beats, and 1 beat consists of 4 sixteenths. Calling the `getBarsBeatsSixteenths` method gives you information where the instance is on the grid.
 ```javascript
 // all values are normalized, so 16 sixteenths make up 1 bar
 new MusicTime(0, 0, 16).getBarsBeatsSixteenths();
@@ -76,9 +78,7 @@ new MusicTime(0, 0, 1.5).getBarsBeatsSixteenths();
 // {bars: 0, beats: 0, sixteenths: 1, remainingSixteenths: 0.5}
 ```
 
-Some remarks:
-- `bars`, `beats` and `sixteenths` all start at 0. This obviously makes sense programatically but might be slightly counterintuitive from a musical perspective (counting 0,1,2,3 instead of 1,2,3,4).
-- floats are not allowed when using the `fromString` method. You can only use integers there: `MusicTime.fromString('1.2.3')`
+(Floats are not allowed in strings that you pass to the `fromString` method. This will result in errors being thrown.)
 
 ## operations
 ```javascript
