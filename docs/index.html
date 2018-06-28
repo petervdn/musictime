@@ -65,43 +65,61 @@
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
 				<h1 id="musictime">musictime</h1>
-				<p>Small class to work with timings in a musical context. They are defined as bars/beats/sixteenths, and can be converted to and from actual time in seconds (by supplying a bpm).</p>
-				<h3 id="install">install</h3>
+				<p>A class that helps with timings in a musical context. Instances are defined on a grid of <a href="https://en.wikipedia.org/wiki/Bar_(music">bars</a>), <a href="https://en.wikipedia.org/wiki/Beat_(music">beats</a>) and <a href="https://en.wikipedia.org/wiki/Sixteenth_note">sixteenths</a> and can be converted to and from actual time in seconds.</p>
+				<h2 id="install">install</h2>
 				<pre><code class="lang-sh">npm install musictime
 </code></pre>
 				<h2 id="creating-an-instance">creating an instance</h2>
 				<p>There are a few ways to create a <code>MusicTime</code> instance:</p>
 				<pre><code class="lang-javascript"><span class="hljs-keyword">import</span> MusicTime <span class="hljs-keyword">from</span> <span class="hljs-string">'musictime'</span>;
 
-<span class="hljs-keyword">const</span> t1 = <span class="hljs-keyword">new</span> MusicTime(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);            <span class="hljs-comment">// constructor accepts bars, beats, sixteenths (all 0-based)</span>
-<span class="hljs-keyword">const</span> t2 = MusicTime.fromString(<span class="hljs-string">'1.2.3'</span>);   <span class="hljs-comment">// parsing from a string can make data with a lot of timings much cleaner</span>
-<span class="hljs-keyword">const</span> t3 = MusicTime.fromTime(<span class="hljs-number">10</span>, <span class="hljs-number">120</span>);     <span class="hljs-comment">// creates an instance at 10s (at 120bpm)</span>
-</code></pre>
-				<p>The bars, beats and sixteenths parameters in the constructor all default to <code>0</code>.</p>
-				<pre><code class="lang-javascript"><span class="hljs-keyword">new</span> MusicTime()    <span class="hljs-comment">// same as new MusicTime(0, 0, 0);</span>
-<span class="hljs-keyword">new</span> MusicTime(<span class="hljs-number">1</span>)   <span class="hljs-comment">// new MusicTime(1, 0, 0)</span>
-</code></pre>
-				<p>Each instance has a <code>bars</code>, <code>beats</code> and <code>sixteenths</code> property.</p>
-				<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> time = <span class="hljs-keyword">new</span> MusicTime(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>)
-time1.bars       <span class="hljs-comment">// 1</span>
-time1.beats      <span class="hljs-comment">// 2</span>
-time1.sixteenths <span class="hljs-comment">// 3</span>
+<span class="hljs-comment">// constructor accepts bars, beats, sixteenths</span>
+<span class="hljs-keyword">const</span> t1 = <span class="hljs-keyword">new</span> MusicTime(<span class="hljs-number">1</span>, <span class="hljs-number">2</span>, <span class="hljs-number">3</span>);
 
-<span class="hljs-comment">// all times will be normalized after creation:</span>
-<span class="hljs-keyword">const</span> time = <span class="hljs-keyword">new</span> MusicTime(<span class="hljs-number">0</span>,<span class="hljs-number">0</span>,<span class="hljs-number">16</span>); 
-time2.bars       <span class="hljs-comment">// 1</span>
-time2.beats      <span class="hljs-comment">// 0</span>
-time2.sixteenths <span class="hljs-comment">// 0</span>
+<span class="hljs-comment">// all params default to 0</span>
+<span class="hljs-keyword">const</span> t3 = <span class="hljs-keyword">new</span> MusicTime(<span class="hljs-number">2</span>);
+
+<span class="hljs-comment">// parse from a string</span>
+<span class="hljs-keyword">const</span> t2 = MusicTime.fromString(<span class="hljs-string">'1.2.3'</span>);
+
+<span class="hljs-comment">// creates an instance at 10s (at 120bpm)</span>
+<span class="hljs-keyword">const</span> t5 = MusicTime.fromTime(<span class="hljs-number">10</span>, <span class="hljs-number">120</span>);
 </code></pre>
-				<p><strong>At the moment you should not set these 3 properties</strong> </p>
+				<p>Note that <code>bars</code>, <code>beats</code> and <code>sixteenths</code> all start at 0. This might be slightly counterintuitive from a musical perspective (counting 0,1,2,3 instead of 1,2,3,4).</p>
 				<h2 id="converting-to-seconds">converting to seconds</h2>
-				<p>Supply a bpm to convert an instance to seconds.</p>
-				<pre><code class="lang-javascript"><span class="hljs-keyword">new</span> MusicTime(<span class="hljs-number">0</span>,<span class="hljs-number">120</span>,<span class="hljs-number">0</span>).toTime(<span class="hljs-number">120</span>); <span class="hljs-comment">// = 60</span>
+				<p>The most common thing to do with a <code>MusicTime</code> instance is converting to seconds. You can do this by supplying the tempo in beats per minute (BPM):</p>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">new</span> MusicTime(<span class="hljs-number">0</span>,<span class="hljs-number">120</span>,<span class="hljs-number">0</span>).toTime(<span class="hljs-number">120</span>);
+<span class="hljs-comment">// result = 60</span>
 </code></pre>
-				<p>Results from these <code>toTime</code> calls will be stored in a cache, so that multiple requests (with the same bpm) will skip unnessesary calculations. This cache is global and is used by all <code>MusicTime</code> instances (<code>MusicTime.TO_TIME_CACHE</code>). If for some reason you want to clear this cache:</p>
-				<pre><code class="lang-javascript">MusicTime.clearCache();
+				<h2 id="bars-beats-sixteenths-grid">bars, beats, sixteenths grid</h2>
+				<p>Every <code>MusicTime</code> instance ends up on the bars/beats/sixteenths grid, which can be seen using the <code>getBarsBeatsSixteenths</code> method. In the resulting object, all these three values will be integers, any remaining time (when the instance can not be placed exactly on the grid) can be found in the <code>remainingSixteenths</code> property (defined as a factor of sixteenths).</p>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">new</span> MusicTime(<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>).getBarsBeatsSixteenths();
+<span class="hljs-comment">// {bars: 1, beats: 0, sixteenths: 0, remainingSixteenths: 0}</span>
 </code></pre>
-				<h2 id="some-operations">some operations</h2>
+				<p>By default, 1 <code>bar</code> consists of 4 <code>beats</code>, and 1 <code>beat</code> consists of 4 <code>sixteenths</code>.</p>
+				<pre><code class="lang-javascript"><span class="hljs-comment">// all values are normalized, so 16 sixteenths make up 1 bar</span>
+<span class="hljs-keyword">new</span> MusicTime(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">16</span>).getBarsBeatsSixteenths();
+<span class="hljs-comment">// {bars: 1, beats: 0, sixteenths: 0, remainingSixteenths: 0}</span>
+
+<span class="hljs-keyword">new</span> MusicTime(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">23</span>).getBarsBeatsSixteenths();
+<span class="hljs-comment">// {bars: 1, beats: 2, sixteenths: 3, remainingSixteenths: 0}</span>
+</code></pre>
+				<p>If you want to change how many beats go in a bar and/or how many sixteenths in a beat, you can pass that info in the constructor:</p>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">new</span> MusicTime(<span class="hljs-number">0</span>, <span class="hljs-number">3</span>, <span class="hljs-number">0</span>, {<span class="hljs-attr">sixteenthsPerBeat</span>: <span class="hljs-number">4</span>, <span class="hljs-attr">beatsPerBar</span>: <span class="hljs-number">3</span>}).getBarsBeatsSixteenths();
+<span class="hljs-comment">// {bars: 1, beats: 0, sixteenths: 0, remainingSixteenths: 0}</span>
+</code></pre>
+				<p>You are allowed to use floats for the <code>bars</code>, <code>beats</code> or <code>sixteenths</code> values:</p>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">new</span> MusicTime(<span class="hljs-number">0.5</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>).getBarsBeatsSixteenths();
+<span class="hljs-comment">// {bars: 0, beats: 2, sixteenths: 0, remainingSixteenths: 0}</span>
+
+<span class="hljs-keyword">new</span> MusicTime(<span class="hljs-number">0</span>, <span class="hljs-number">0.5</span>, <span class="hljs-number">0</span>).getBarsBeatsSixteenths();
+<span class="hljs-comment">// {bars: 0, beats: 0, sixteenths: 2, remainingSixteenths: 0}</span>
+
+<span class="hljs-keyword">new</span> MusicTime(<span class="hljs-number">0</span>, <span class="hljs-number">0</span>, <span class="hljs-number">1.5</span>).getBarsBeatsSixteenths();
+<span class="hljs-comment">// {bars: 0, beats: 0, sixteenths: 1, remainingSixteenths: 0.5}</span>
+</code></pre>
+				<p>(Floats are not allowed in strings that you pass to the <code>fromString</code> method. This will result in an error.)</p>
+				<h2 id="operations">operations</h2>
 				<pre><code class="lang-javascript"><span class="hljs-comment">// calculations</span>
 <span class="hljs-keyword">const</span> result1 = t1.add(t2);
 <span class="hljs-keyword">const</span> result2 = t2.subtract(t1);
@@ -113,25 +131,24 @@ time2.sixteenths <span class="hljs-comment">// 0</span>
 <span class="hljs-keyword">const</span> result6 = MusicTime.multiply(t2, <span class="hljs-number">3</span>);
 
 <span class="hljs-keyword">const</span> clone = result1.clone();    <span class="hljs-comment">// clones the instance</span>
-<span class="hljs-keyword">new</span> MusicTime(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>).toString();  <span class="hljs-comment">// "1.2.3"</span>
+<span class="hljs-keyword">new</span> MusicTime(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>).toString();  <span class="hljs-comment">// "1.2.3". note that this does not show the remainingSixteenths value</span>
+</code></pre>
+				<p>When adding or subtracting, the resulting (newly created) instance will use the <code>sixteenthsPerBeat</code> and <code>beatsPerBar</code> settings from the instance that comes first:</p>
+				<pre><code class="lang-javascript"><span class="hljs-comment">// in both cases: result will have the settings from t1</span>
+<span class="hljs-keyword">const</span> result = t1.add(t2);
+<span class="hljs-keyword">const</span> result = MusicTime.add(t1, t2);
 </code></pre>
 				<h2 id="comparison">comparison</h2>
-				<p>Instances have a <code>valueOf</code> method (returning the total number of sixteenths), which makes direct comparison through relational operators (<code>&gt; &lt; &gt;= &lt;=</code>) possible:</p>
+				<p>Instances have a <code>valueOf</code> method, which makes direct comparison through relational operators (<code>&gt; &lt; &gt;= &lt;=</code>) possible:</p>
 				<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> time1 = <span class="hljs-keyword">new</span> MusicTime(<span class="hljs-number">1</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);
 <span class="hljs-keyword">const</span> time2 = <span class="hljs-keyword">new</span> MusicTime(<span class="hljs-number">2</span>, <span class="hljs-number">0</span>, <span class="hljs-number">0</span>);
 
 time1 &gt; time2 <span class="hljs-comment">// true</span>
 time1 &lt; time2 <span class="hljs-comment">// false</span>
 </code></pre>
-				<h2 id="beatsperbar-and-sixteenthsperbeat">beatsPerBar and sixteenthsPerBeat</h2>
-				<p>Both values default to 4, but can be overridden in the constructor (4th and 5th parameter, respectively)</p>
-				<pre><code class="lang-javascript"><span class="hljs-keyword">new</span> MusicTime(<span class="hljs-number">1</span>,<span class="hljs-number">2</span>,<span class="hljs-number">3</span>,<span class="hljs-number">3</span>,<span class="hljs-number">8</span>); <span class="hljs-comment">// 3 beats per bar, 8 sixteenths per beat</span>
-</code></pre>
+				<p>Note that this does not affect checking equality (<code>==</code>, <code>===</code>, <code>!=</code>, <code>!==</code>).</p>
 				<h2 id="limitations">limitations</h2>
 				<ul>
-					<li>there is currently nothing more than the sixteenth grid (although the <code>sixteenthsPerBeat</code> can be adjusted)</li>
-					<li>conversions from a time in seconds will floor to that grid and discard any remaining timeinfo</li>
-					<li>timings with unequal <code>beatsPerBar</code> and <code>sixteenthsPerBeat</code> settings cannot be summed or subtracted</li>
 					<li>anything regarding negative numbers and timings is untested and will probably lead to incorrect results.</li>
 				</ul>
 			</div>
@@ -148,6 +165,18 @@ time1 &lt; time2 <span class="hljs-comment">// false</span>
 				<ul class="before-current">
 					<li class=" tsd-kind-class">
 						<a href="classes/musictime.html" class="tsd-kind-icon">Music<wbr>Time</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/ibarsbeatssixteenths.html" class="tsd-kind-icon">IBars<wbr>Beats<wbr>Sixteenths</a>
+					</li>
+					<li class=" tsd-kind-interface">
+						<a href="interfaces/itimeconfig.html" class="tsd-kind-icon">ITime<wbr>Config</a>
+					</li>
+					<li class=" tsd-kind-function tsd-is-not-exported">
+						<a href="globals.html#getdefaulttimeconfig" class="tsd-kind-icon">get<wbr>Default<wbr>Time<wbr>Config</a>
+					</li>
+					<li class=" tsd-kind-function">
+						<a href="globals.html#stringisvalid" class="tsd-kind-icon">string<wbr>IsValid</a>
 					</li>
 				</ul>
 			</nav>
