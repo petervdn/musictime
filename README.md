@@ -113,18 +113,3 @@ Note that this does not affect checking equality (`==`, `===`, `!=`, `!==`).
 ## limitations
 - anything regarding negative numbers and timings is untested and will probably lead to incorrect results.
 
-
-## example usecase
-Easily define timings for a [drumloop](https://makingmusic.ableton.com/programming-beats-2-linear-drumming-1.png) (the strings used are of the format `BARS . BEATS . SIXTEENTHS`)
-```javascript
-const kickTimings = ['0.0.0', '0.1.0', '0.2.0', '0.3.0'];
-const snareTimings = ['0.1.0', '0.3.0'];
-const hihatTimings = ['0.0.0', '0.0.2', '0.1.0', '0.1.2', '0.2.0', '0.2.2', '0.3.0', '0.3.2'];
-
-const bpm = 120;
-
-[...kickTimings, ...snareTimings, ...hihatTimings].forEach(timeString => {
-  MusicTime.fromString(timeString).toTime(bpm); // gives time in seconds
-});
-```
-
