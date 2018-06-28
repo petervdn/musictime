@@ -1,20 +1,40 @@
+/**
+ * Holds sixteenthsPerBeat and beatsPerBar values.
+ */
 export interface ITimeConfig {
   beatsPerBar: number;
   sixteenthsPerBeat: number;
 }
 
+/**
+ * Defines the place on the bars, beats, sixteenths grid.
+ */
 export interface IBarsBeatsSixteenths {
+  /** The amount of bars (measures). Will always be an integer. */
   bars: number;
+  /** The amount of beats. Will always be an integer, and never equal or exceed the beatsPerBar setting. */
   beats: number;
+  /** The amount of sixteenths. Will always be an integer. */
   sixteenths: number;
+  /** The remainder (as fraction of a sixteenth) when a time does not end up exactly on the sixteenth-grid. Will be either exactly 0 or a float between 0 and 1.*/
   remainingSixteenths: number;
 }
 
-const getDefaultTimeConfig = () => ({
-  sixteenthsPerBeat: 4,
-  beatsPerBar: 4,
-});
+/**
+ * Creates the default values for sixteenthsPerBeat (4) and beatsPerBar (4).
+ */
+function getDefaultTimeConfig(): ITimeConfig {
+  return {
+    sixteenthsPerBeat: 4,
+    beatsPerBar: 4,
+  };
+}
 
+/**
+ * Checks
+ * @param {string} value
+ * @returns {boolean}
+ */
 export const stringIsValid = (value: string) => {
   const split = value.split('.');
   if (split.length !== 3) {
@@ -136,7 +156,7 @@ export default class MusicTime {
   }
 
   /**
-   * Check if the instance is equal to another time.
+   * Check if two instances are equal.
    * @param {MusicTime} time
    * @returns {MusicTime}
    */
@@ -152,14 +172,26 @@ export default class MusicTime {
     return new MusicTime(0, this._beats);
   }
 
+  /**
+   * Returns the total amount of bars (can be a float).
+   * @returns {number}
+   */
   public getTotalBars(): number {
     return this._beats / this._timeConfig.beatsPerBar;
   }
 
+  /**
+   * Returns the total amount of beats (can be a float).
+   * @returns {number}
+   */
   public getTotalBeats(): number {
     return this._beats;
   }
 
+  /**
+   * Returns the total amount of sixteenths (can be a float).
+   * @returns {number}
+   */
   public getTotalSixteenths(): number {
     return this._beats * this._timeConfig.sixteenthsPerBeat;
   }
@@ -215,7 +247,7 @@ export default class MusicTime {
   }
 
   /**
-   * Creates an instance from a string: '0.1.2'
+   * Creates an instance from a string.
    * @param value
    * @param timeConfig
    * @returns {MusicTime}
